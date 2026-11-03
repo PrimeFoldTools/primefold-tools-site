@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools, PrimeFold Tools</title>
+<meta name="description" content="PrimeFold Tools built three things for its own Claude Code and Codex sessions. Andon and the AI Agent Operator Kit are free. The Verification Kit is $27.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/pf-mark-gold.png" type="image/png" sizes="381x381">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://primefold.tools/built.html">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text summary for AI agents">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tools, PrimeFold Tools">
+<meta property="og:description" content="Three things we built for our own agents. Two are free. None needs an account with us.">
+<meta property="og:url" content="https://primefold.tools/built.html">
+<meta property="og:image" content="https://primefold.tools/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"SoftwareApplication","@id":"https://github.com/PrimeFoldTools/Andon#app","name":"Andon","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code, Codex","softwareVersion":"0.1.1","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/Andon","author":{"@type":"Organization","@id":"https://primefold.tools/#org","name":"PrimeFold Tools","url":"https://primefold.tools/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"SoftwareApplication","name":"AI Agent Operator Kit","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/primefold-skills-public","author":{"@id":"https://primefold.tools/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"Product","name":"Verification Kit","description":"3 Stop hooks for Claude Code: a strict claim-check, a claim-provenance check for unsourced numbers, and a fabrication detector for narrated tool runs. Version 0.1.0.","brand":{"@id":"https://primefold.tools/#org"},"url":"https://primefold.tools/built.html#verification-kit","offers":{"@type":"Offer","price":"27","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI"}}
+]}</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<!-- 2026-11-03, his ask: the same stage as the home page (the blue field, the pointer push, the gold mark gathering on
+     scroll) on the tools page too; a shorter runway (.hero.short) so the shelf arrives sooner. Same engine, same mark. -->
+<header class="hero short" id="hero">
+  <div class="stage">
+    <canvas id="fold" aria-hidden="true"></canvas>
+    <noscript><img class="fold-static" src="assets/fold-final.png" alt=""></noscript>
+    <div class="top">
+      <a class="id" href="index.html">PrimeFold Tools</a>
+      <nav><a href="built.html" aria-current="page">Tools</a><a href="https://github.com/PrimeFoldTools">GitHub</a><a href="llms.txt">For agents</a></nav>
+    </div>
+    <div class="centre">
+      <h1>Three things we built for our own agents.</h1>
+      <p class="h2">Two are free. None needs an account with us.</p>
+    </div>
+    <div class="scroll" aria-hidden="true">Scroll ↓</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <main>
+    <section class="item" id="andon">
+      <h2>Andon <span class="price">free</span></h2>
+      <p>Catches a false "done" before it reaches you. Two lines install the claim-check Stop hook in warn mode and a memory hook that orients your agent each session. Open source under MIT. 168 stars on GitHub. The maintainer of Serial-Studio adapted it.</p>
+      <div class="card">
+        <div class="head"><span>Claude Code, two lines</span><span>v0.1.1</span></div>
+        <div class="line sh"><span class="who">claude</span><code class="txt">/plugin marketplace add PrimeFoldTools/andon
+/plugin install andon@primefold-tools</code></div>
+        <div class="head"><span>Codex, two lines</span><span>v0.1.1</span></div>
+        <div class="line sh"><span class="who">codex</span><code class="txt">codex plugin marketplace add PrimeFoldTools/andon
+codex plugin add andon@primefold-tools</code></div>
+        <div class="line log"><span class="who">tests</span><span class="txt">539 pass on a clean clone at 15ef5bb</span></div>
+      </div>
+      <p class="cap">30-second proof, no install. From inside a clone, run the three lines under "Reproduce it in 30 seconds" in the README. The hook answers with a message asking for claim-specific verification.</p>
+      <p class="link"><a href="https://github.com/PrimeFoldTools/Andon">Andon on GitHub</a></p>
+    </section>
+
+    <section class="item" id="operator-kit">
+      <h2>AI Agent Operator Kit <span class="price">free</span></h2>
+      <p>Runs the same workflow every session, with 5 skills that chain. Capture your open loops and cut the list to the part that matters. Audit yourself for drift and reality-check a build before you start. Then write the outside copy. 6 more skills sit in the same repo, each one a single SKILL.md file. Open source under MIT.</p>
+      <div class="card">
+        <div class="head"><span>install, two lines</span><span>11 skill folders</span></div>
+        <div class="line sh"><span class="who">sh</span><code class="txt">git clone https://github.com/PrimeFoldTools/primefold-skills-public.git</code></div>
+        <div class="line sh"><span class="who">sh</span><code class="txt">cp -r primefold-skills-public/skills/* ~/.claude/skills/</code></div>
+      </div>
+      <p class="cap">30-second proof. Type "Reality check this" and paste one idea you were about to spend a day on. You get an evidence score and a GO or HOLD.</p>
+      <p class="link"><a href="https://github.com/PrimeFoldTools/primefold-skills-public">Operator Kit on GitHub</a></p>
+    </section>
+
+    <section class="item" id="verification-kit">
+      <h2>Verification Kit <span class="price">$27 · 30-day refund, no questions</span></h2>
+      <p>3 Stop hooks that catch what free Andon lets through.</p>
+      <ul class="points">
+<li><strong>Flags</strong> a command the agent said it ran but never ran.</li>
+<li><strong>Flags</strong> a number in the final answer with no source in the session.</li>
+<li><strong>Blocks</strong> a &quot;the whole job is done&quot; claim with no proof in the last 15 minutes.</li>
+<li><strong>Free Andon warns on that claim.</strong> The kit&#x27;s check blocks it.</li>
+<li><strong>Ships in warn mode.</strong> You turn on block.</li>
+      </ul>
+      <div class="card">
+        <div class="head"><span>verification-kit v0.1.0</span><span>commit 7237088</span></div>
+        <div class="line kv"><span class="who">tests</span><span class="txt">210 passed</span></div>
+        <div class="line kv"><span class="who">mutate</span><span class="txt">10 of 10 planted bugs caught, so the tests can fail</span></div>
+        <div class="line kv"><span class="who">demo</span><span class="txt">6 small transcripts: 3 defects flagged, 3 clean turns left alone</span></div>
+        <div class="line kv"><span class="who">licence</span><span class="txt">single user, v0.1, in force from 2026-10-27</span></div>
+        <div class="line kv"><span class="who">zip</span><span class="txt">verification-kit-v0.1.0.zip, 73,565 bytes</span></div>
+        <div class="line kv hash"><span class="who">sha256</span><span class="txt">51f1cfc0b032dfad<wbr>4ee50a8561156782<wbr>15436cd6581b8531<wbr>8a393d70b115387f</span></div>
+      </div>
+      <p class="cap">30-second proof, no install. The kit ships six small transcripts and a script that runs the three hooks on them. Checkout is on Polar. The download is the zip with that hash.</p>
+      <div class="cta"><a class="button" href="https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI">Buy the Verification Kit, $27</a></div>
+      <p class="guarantee">Try it for 30 days. If it is not worth $27 to you, email us and we refund it. No questions.</p>
+      <p class="link">Questions first: <a href="mailto:primefoldtools@gmail.com?subject=Verification%20Kit">primefoldtools@gmail.com</a></p>
+    </section>
+
+    <section class="item">
+      <h2>Also built, not on the shelf.</h2>
+      <p>11 of our skills are public in the Operator Kit above. 35 more sit inside 8 private plugins, for markets, writing, visuals, family life, relationships, property, fact-checking and travel. The prompt library we use every day is not public yet.</p>
+      <p class="ask"><a href="mailto:primefoldtools@gmail.com?subject=One%20of%20the%20private%20ones">If you want one of the private ones, email us what you would use it for.</a></p>
+      <p class="rev">A script supplies every figure on this page, as read on Nov 3, 2026.</p>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <li>PrimeFold Tools, Ontario, Canada</li>
+      <li><a href="https://collinnerdahl.com">Collin Nerdahl, CEO</a></li>
+      <li><a href="https://primefoldtrading.com">PrimeFold Trading</a></li>
+      <li><a href="https://github.com/PrimeFoldTools">GitHub</a></li>
+      <li><a href="mailto:primefoldtools@gmail.com">primefoldtools@gmail.com</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="llms.txt">llms.txt</a></li>
+      <li><a href="https://github.com/PrimeFoldTools/Andon#known-limits--read-before-you-trust-it">What the hook does not catch</a></li>
+    </ul>
+  </footer>
+</div>
+<script data-role="fold">
+// The gold fold, gathered out of a blue wisp by scrolling. No library, no timer, no loop: it redraws only when the page
+// scrolls or resizes (one requestAnimationFrame per scroll event, to coalesce them). The hero's progress p runs 0 → 1 over
+// the hero's scroll runway (hero height minus one screen), so the mark is fully formed before the receipt card scrolls into
+// view. Each small icon (canvas.fold-icon, data-icon = index into his 2026-10-30 icon sheet) gathers the same way as it
+// rises through the lower half of the screen: scattered potential → ordered form, his "chaos turning into order" rule.
+// 2026-11-03 motion pass, proposal 1: three tiles in a row land one after another, left first, each column 0.12 of the
+// gather window later (about 45 px of scroll); one column on a phone, so no offset there.
+// 2026-11-03 STAGE candidate (his picks: Monaka's smoke fills the window, Zero gives the hand something to do): the hero's
+// scattered state spans the whole screen instead of a cloud above the title, the pointer pushes the unformed facets and
+// haze aside (weight 1-e, so the formed mark never moves), and a faint blue trace (#trace, drawn by this script, no timer)
+// drifts behind the page below the hero. Phones and reduced motion: no pointer, no trace.
+// Reduced motion: every fold is pinned at 1 and drawn once. JavaScript off: the <noscript> still (hero) or SVG (icons) shows.
+// Source geometry: the company icons from design-passes/company-icons-source-20261030.html, rasterised and cut into facets
+// on a jittered grid, the way the 10-29 fold engine did with Delaunay. Blue lives only here.
+(function(){
+  var ICONS=["<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <mask id=\"pfmask\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"100\" height=\"100\">\n          <image href=\"data:image/png;base64,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\" x=\"0\" y=\"0\" width=\"100\" height=\"100\"/>\n        </mask>\n        <circle class=\"s\" cx=\"50\" cy=\"50\" r=\"47\" stroke-width=\"5.5\"/>\n        <rect class=\"g\" x=\"0\" y=\"0\" width=\"100\" height=\"100\" mask=\"url(#pfmask)\"/>\n        <circle class=\"g\" cx=\"50\" cy=\"27.1\" r=\"3\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M10 16 H90 a6 6 0 0 1 6 6 V62 a6 6 0 0 1 -6 6 H44 L26 86 V68 H10 a6 6 0 0 1 -6 -6 V22 a6 6 0 0 1 6 -6 Z\"/>\n        <path class=\"s\" stroke-width=\"7\" style=\"stroke:var(--smoke)\" d=\"M22 42 L34 54 L56 30\"/>\n        <text x=\"76\" y=\"56\" text-anchor=\"middle\" class=\"bg\" font-family=\"Hanken Grotesk, sans-serif\" font-weight=\"600\" font-size=\"34\">?</text>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"s\" stroke-width=\"5\" x=\"8\" y=\"8\" width=\"84\" height=\"84\" rx=\"10\"/>\n        <circle class=\"s\" cx=\"50\" cy=\"50\" r=\"33\" stroke-width=\"4\"/>\n        <circle class=\"g\" cx=\"50\" cy=\"50\" r=\"26\"/>\n        \n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M20 6 H80 V92 L72 86 L64 92 L56 86 L48 92 L40 86 L32 92 L24 86 L20 89 Z\"/>\n        <path class=\"s\" stroke-width=\"5\" style=\"stroke:var(--smoke)\" d=\"M29 26 L34 31 L42 21 M29 47 L34 52 L42 42 M29 68 L34 73 L42 63 M50 27 H70 M50 48 H70 M50 69 H66\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"g\" x=\"34\" y=\"6\" width=\"8\" height=\"22\" rx=\"3\"/><rect class=\"g\" x=\"58\" y=\"6\" width=\"8\" height=\"22\" rx=\"3\"/>\n        <path class=\"g\" d=\"M22 28 H78 V46 a28 28 0 0 1 -28 28 a28 28 0 0 1 -28 -28 Z\"/>\n        <path class=\"s\" stroke-width=\"8\" d=\"M50 74 V84 Q50 94 62 94 H90\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M50 4 L88 18 V46 C88 70 72 86 50 96 C28 86 12 70 12 46 V18 Z\"/>\n        <path class=\"s\" stroke-width=\"9\" style=\"stroke:var(--smoke)\" d=\"M30 50 L45 64 L70 36\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"g\" x=\"6\" y=\"20\" width=\"88\" height=\"62\" rx=\"6\"/>\n        <path class=\"s\" stroke-width=\"5\" style=\"stroke:var(--smoke)\" d=\"M12 28 L50 56 L88 28\"/>\n      </svg>"];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, S=240;
+  function ease(s){ return 1-Math.pow(1-s,3); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function gold(svg){ return svg.replace('.g{fill:#fff}','.g{fill:#FFD900}').replace('stroke:#fff','stroke:#FFD900').replace('.bg{fill:#000}','.bg{fill:none}'); }   // the icon as it is drawn once formed
+  function raster(svg, cb, dil){
+    var c=document.createElement('canvas'); c.width=c.height=S; var g=c.getContext('2d',{willReadFrequently:true}); g.fillStyle='#000'; g.fillRect(0,0,S,S);
+    var im=new Image();
+    im.onload=function(){ var k=.86*S/Math.max(im.width,im.height), w=im.width*k, h=im.height*k; g.drawImage(im,(S-w)/2,(S-h)/2,w,h);
+      var d=g.getImageData(0,0,S,S).data, on=new Uint8Array(S*S); for(var i=0;i<S*S;i++) on[i]=d[i*4]>127?1:0;
+      for(var it=0;it<(dil==null?2:dil);it++){ var n=on.slice(); for(var y=1;y<S-1;y++) for(var x=1;x<S-1;x++){ var q=y*S+x; if(!on[q]&&(on[q-1]||on[q+1]||on[q-S]||on[q+S])) n[q]=1; } on=n; }
+      cb(on); };
+    im.onerror=function(){ cb(null); };
+    im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }
+  // One fold: a canvas, an icon, and how it scatters. o.icon marks a small tile (fills its box, tighter scatter, coarser facets).
+  function Fold(cv, svg, o){
+    var ctx=cv.getContext('2d'), STEP=o.icon?11:9, tris=[], ready=false, W=0, H=0, DPR=1, im=null;
+    if(o.icon){ im=new Image(); im.onload=function(){ draw(true); }; im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(gold(svg)); }   // tiles end crisp: the facets cross-fade into the icon itself
+    var pin=cv.getAttribute('data-progress'); pin=(pin===null||pin==='')?null:Math.max(0,Math.min(1,+pin));   // a still frame at a fixed progress (the share image)
+    var mode=cv.getAttribute('data-delay'), dir=+cv.getAttribute('data-dir')||1;   // share image: delay by position (left waits longest) and scatter leftwards, so one frame reads chaos → order
+    var p=pin!==null?pin:(reduce?1:0), drawn=-1, seed=o.seed||7, mx=-1e4, my=-1e4;
+    function pos(t,e,ox,oy,k,bx,by,stage){   // where a facet sits at progress e: tiles scatter around their box; the hero stage scatters over the whole window
+      var x,y; if(stage){ x=lerp(t.ux*W, ox+t.cx*k, e); y=lerp(t.uy*H, oy+t.cy*k, e); } else { x=ox+(t.cx+t.dx*bx*(1-e))*k; y=oy+(t.cy+t.dy*by*(1-e))*k; }
+      if(stage&&e<1){ var ddx=x-mx, ddy=y-my, dd=Math.sqrt(ddx*ddx+ddy*ddy), R=Math.min(W,H)*.24; if(dd<R&&dd>0){ var push=(R-dd)*.45*(1-e); x+=ddx/dd*push; y+=ddy/dd*push; } }
+      return [x,y]; }
+    var col=0; if(o.icon){ var li=cv.closest('li'); if(li) col=[].indexOf.call(li.parentNode.children, li)%3; }   // column in its row of three
+    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    function build(on){
+      if(!on) return;
+      var at=function(x,y){ x|=0; y|=0; return x>=0&&y>=0&&x<S&&y<S&&on[y*S+x]===1; };
+      var cols=Math.ceil(S/STEP)+1, rows=cols, V=[], i, j;
+      for(j=0;j<rows;j++){ V.push([]); for(i=0;i<cols;i++){ V[j].push([i*STEP+(rnd()-.5)*STEP*.9, j*STEP+(rnd()-.5)*STEP*.9]); } }
+      for(j=0;j<rows-1;j++) for(i=0;i<cols-1;i++){
+        var a=V[j][i], b=V[j][i+1], c=V[j+1][i], d=V[j+1][i+1];
+        var pair=((i+j)%2)?[[a,b,d],[a,d,c]]:[[a,b,c],[b,d,c]];
+        for(var m=0;m<2;m++){ var t=pair[m], cx=(t[0][0]+t[1][0]+t[2][0])/3, cy=(t[0][1]+t[1][1]+t[2][1])/3;
+          if(!at(cx,cy)) continue; var mids=0; for(var k=0;k<3;k++){ var u=t[k], v=t[(k+1)%3]; if(at((u[0]+v[0])/2,(u[1]+v[1])/2)) mids++; } if(mids<2) continue;
+          var ang=rnd()*Math.PI*2, dist=.3+rnd()*.9;
+          tris.push({p:t, cx:cx, cy:cy, sh:.84+rnd()*.26, dx:dir*(Math.cos(ang)*dist*S+S*.95), dy:Math.sin(ang)*dist*S*.45-S*.3, rot:(rnd()-.5)*2.4, d:mode==='x'?.08+.84*(1-cx/S):rnd()*.5, ux:rnd(), uy:rnd()}); }
+      }
+      ready=true; size(); draw(true);
+    }
+    function size(){ W=cv.clientWidth; H=cv.clientHeight; DPR=Math.min(devicePixelRatio||1,2); cv.width=W*DPR; cv.height=H*DPR; drawn=-1; }
+    function draw(force){
+      if(!ready||(!force&&p===drawn)) return; drawn=p;
+      ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+      var mob=W<900, box, ox, oy, bx, by, hz, every, i, t, s, e;
+      if(o.icon){ box=Math.min(W,H)/3; ox=(W-box)/2; oy=(H-box)/2; bx=-.42; by=.5; hz=box/220; every=4; }   // tiles: the icon fills the middle third of a 3x canvas, so the scatter and haze stay inside it
+      else { box=+cv.getAttribute('data-box')||(mob?Math.min(160,W*.42):Math.min(220,H*.25)); ox=W/2-box/2; oy=(cv.hasAttribute('data-oy')?+cv.getAttribute('data-oy'):(mob?.08:.11))*H; bx=mob?.45:1; by=mob?.6:1; hz=1; every=mob?6:3; }
+      var k=box/S, cf=o.icon?Math.pow(Math.max(0,Math.min(1,(p-.72)/.28)),2):0;   // tiles: the last stretch fades the facets into the drawn icon
+      var stage=!o.icon&&!mob&&pin===null;   // the full-window stage: desktop hero only (phones keep the cloud; the share image keeps its frame)
+      for(i=0;i<tris.length;i+=every){ t=tris[i]; s=Math.max(0,Math.min(1,(p-t.d)/(1-t.d))); e=ease(s); if(s>=1) continue;   // the wisp: thinner on phones and tiles
+        var xy=pos(t,e,ox,oy,k,bx,by,stage), x=xy[0], y=xy[1], r=stage?(24+Math.min(W,H)*.07*(1-e)):(18+34*(1-e))*(mob&&!o.icon?.55:1)*hz;
+        var g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,'rgba(122,162,247,'+((mob&&!o.icon?.14:(stage?.17:.22))*(1-e)).toFixed(3)+')'); g.addColorStop(1,'rgba(122,162,247,0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+      for(i=0;i<tris.length;i++){ t=tris[i]; s=Math.max(0,Math.min(1,(p-t.d)/(1-t.d))); e=ease(s);
+        var pq=pos(t,e,ox,oy,k,bx,by,stage), cx=pq[0], cy=pq[1], rot=t.rot*(1-e), sc=.55+.45*e;
+        var R=lerp(122,255,e)*t.sh, G=lerp(162,217,e)*t.sh, B=lerp(247,0,e)*t.sh;
+        ctx.globalAlpha=(.25+.75*e)*(1-cf); ctx.fillStyle='rgb('+(R|0)+','+(G|0)+','+(B|0)+')';
+        ctx.beginPath(); for(var q=0;q<3;q++){ var vx=(t.p[q][0]-t.cx)*k*sc, vy=(t.p[q][1]-t.cy)*k*sc; var rx=vx*Math.cos(rot)-vy*Math.sin(rot), ry=vx*Math.sin(rot)+vy*Math.cos(rot); if(q===0) ctx.moveTo(cx+rx,cy+ry); else ctx.lineTo(cx+rx,cy+ry); } ctx.closePath(); ctx.fill();
+        if(e>.9){ ctx.lineJoin='round'; ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=.8; ctx.stroke(); }                      // seal the seams between facets
+        if(e>.97){ ctx.strokeStyle='rgba(120,90,0,'+(.16*(e-.97)/.03).toFixed(3)+')'; ctx.lineWidth=.4; ctx.stroke(); } }   // faint fold edges
+      if(cf>0&&im&&im.complete&&im.naturalWidth){ ctx.globalAlpha=cf; ctx.drawImage(im, ox, oy, box, box); }
+      ctx.globalAlpha=1;
+      if(!o.icon){ window.__fold=p; window.__facets=tris.length; }
+    }
+    this.progress=function(){ if(pin!==null){ p=pin; return; } if(reduce){ p=1; return; }
+      if(o.icon){ var r=cv.getBoundingClientRect(), vh=innerHeight, off=innerWidth>=900?col*.12:0; p=Math.max(0,Math.min(1,(vh*.92-r.top)/(vh*.42)-off)); }   // gathers as the tile rises through the lower half of the screen; later columns wait their turn
+      else { var span=Math.max(1, o.hero.offsetHeight-innerHeight); p=Math.max(0,Math.min(1, scrollY/span)); } };
+    this.pointer=function(x,y){ mx=x; my=y; if(!o.icon&&!reduce&&pin===null&&p<1) draw(true); };
+    this.draw=function(){ draw(false); }; this.size=function(){ size(); }; this.at=function(){ return p; }; this.ready=function(){ return ready; };
+    raster(svg, build, o.icon?1:2);
+  }
+  var folds=[], cv=document.getElementById('fold'), hero=document.getElementById('hero');
+  if(cv&&hero) folds.push(new Fold(cv, ICONS[0], {hero:hero, seed:7}));
+  var tiles=document.querySelectorAll('canvas.fold-icon');
+  for(var i=0;i<tiles.length;i++){ var n=+tiles[i].getAttribute('data-icon'); if(ICONS[n]) folds.push(new Fold(tiles[i], ICONS[n], {icon:true, seed:11+n*13+i})); }
+  function step(){ for(var i=0;i<folds.length;i++){ folds[i].progress(); folds[i].draw(); } window.__icons=tiles.length; window.__iconsFormed=folds.filter(function(f,i){ return i>0&&f.ready()&&f.at()>=1; }).length; }
+  var queued=false; function onScroll(){ if(queued) return; queued=true; requestAnimationFrame(function(){ queued=false; step(); }); }
+  var px=-1e4, py=-1e4, qp=false, heroFold=(cv&&hero)?folds[0]:null;
+  function onPointer(e){ px=e.clientX; py=e.clientY; if(qp) return; qp=true; requestAnimationFrame(function(){ qp=false; if(heroFold) heroFold.pointer(px,py); trace(); }); }
+  // the trace: a few soft blue blobs behind the page once the mark has formed, moved only by scroll and the pointer
+  // The field (2026-11-03, his "why can't the background of the pages all be like the first one"): below the hero, the
+  // same blue haze and star-facets as the hero stage fill a fixed canvas behind the page on every page, lighter so the
+  // text stays readable. Nothing moves on its own: the field drifts with the scroll (slow parallax) and the pointer
+  // pushes it aside, like the hero. Phones and reduced motion: no field. White bands (.chapter) sit on top of it.
+  var tc=null, tg=null, blobs=[], stars=[], tseed=29; function trnd(){ tseed=(tseed*1103515245+12345)&0x7fffffff; return tseed/0x7fffffff; }
+  if(!reduce&&innerWidth>=900&&!matchMedia('(hover: none)').matches){ tc=document.createElement('canvas'); tc.id='trace'; tc.setAttribute('aria-hidden','true'); document.body.insertBefore(tc, document.body.firstChild); tg=tc.getContext('2d');
+    for(var b=0;b<22;b++) blobs.push({ux:trnd(), uy:trnd(), v:.10+trnd()*.22, r:.05+trnd()*.09, ph:trnd()*6.28, a:.06+trnd()*.07});
+    for(var q=0;q<260;q++) stars.push({ux:trnd(), uy:trnd(), v:.14+trnd()*.30, s:2+trnd()*5, rot:trnd()*6.28, a:.18+trnd()*.30, ph:trnd()*6.28}); }
+  function trace(){ if(!tg) return; var W=innerWidth, H=innerHeight, D=Math.min(devicePixelRatio||1,2); if(tc.width!==W*D||tc.height!==H*D){ tc.width=W*D; tc.height=H*D; }
+    tg.setTransform(D,0,0,D,0,0); tg.clearRect(0,0,W,H); var f=1; if(hero){ var span=Math.max(1, hero.offsetHeight-innerHeight); f=Math.max(0,Math.min(1,(scrollY-span)/(H*.6))); } if(f<=0) return;
+    var PR=Math.min(W,H)*.24, L=H+400, i, o, x, y, ddx, ddy, dd, push;
+    for(i=0;i<blobs.length;i++){ o=blobs[i]; y=((o.uy*L - scrollY*o.v)%L+L)%L-200; x=o.ux*W+Math.sin(scrollY*.0012+o.ph)*48; var R=Math.min(W,H)*o.r;
+      ddx=x-px; ddy=y-py; dd=Math.sqrt(ddx*ddx+ddy*ddy); if(dd<PR&&dd>0){ push=(PR-dd)*.5; x+=ddx/dd*push; y+=ddy/dd*push; }
+      var g=tg.createRadialGradient(x,y,0,x,y,R); g.addColorStop(0,'rgba(122,162,247,'+(o.a*f).toFixed(3)+')'); g.addColorStop(1,'rgba(122,162,247,0)'); tg.fillStyle=g; tg.beginPath(); tg.arc(x,y,R,0,Math.PI*2); tg.fill(); }
+    for(i=0;i<stars.length;i++){ o=stars[i]; y=((o.uy*L - scrollY*o.v)%L+L)%L-200; x=o.ux*W+Math.sin(scrollY*.0009+o.ph)*22;
+      ddx=x-px; ddy=y-py; dd=Math.sqrt(ddx*ddx+ddy*ddy); if(dd<PR&&dd>0){ push=(PR-dd)*.55; x+=ddx/dd*push; y+=ddy/dd*push; }
+      var r=o.rot+scrollY*.002, c=Math.cos(r), sn=Math.sin(r), sz=o.s;
+      tg.globalAlpha=o.a*f; tg.fillStyle='rgb(122,162,247)'; tg.beginPath();
+      tg.moveTo(x+c*sz, y+sn*sz); tg.lineTo(x+c*(-sz*.6)-sn*sz*.8, y+sn*(-sz*.6)+c*sz*.8); tg.lineTo(x+c*(-sz*.6)+sn*sz*.8, y+sn*(-sz*.6)-c*sz*.8); tg.closePath(); tg.fill(); }
+    tg.globalAlpha=1; }
+  if(!reduce) addEventListener('scroll', function(){ onScroll(); if(tg){ requestAnimationFrame(trace); } }, {passive:true});
+  if(!reduce) addEventListener('pointermove', onPointer, {passive:true});
+  addEventListener('resize', function(){ for(var i=0;i<folds.length;i++) folds[i].size(); step(); });
+  for(var j=0;j<folds.length;j++) folds[j].progress();
+  addEventListener('load', function(){ step(); trace(); });
+})();
+
+</script>
+</body>
+</html>

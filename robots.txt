@@ -1,0 +1,5 @@
+# Humans, search engines and AI agents are all welcome to read this site.
+User-agent: *
+Allow: /
+
+Sitemap: https://primefold.tools/sitemap.xml

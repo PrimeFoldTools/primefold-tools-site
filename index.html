@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrimeFold Tools</title>
+<meta name="description" content="PrimeFold Tools makes AI agents prove their work. Andon, free and open source, catches a false done in Claude Code and Codex. The Verification Kit adds the checks Andon does not run.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/pf-mark-gold.png" type="image/png" sizes="381x381">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://primefold.tools/">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text summary for AI agents">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PrimeFold Tools">
+<meta property="og:description" content="We stop AI from lying about its own work.">
+<meta property="og:url" content="https://primefold.tools/">
+<meta property="og:image" content="https://primefold.tools/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://primefold.tools/#org","name":"PrimeFold Tools","url":"https://primefold.tools/","logo":"https://primefold.tools/assets/pf-mark-gold.png","email":"mailto:primefoldtools@gmail.com","description":"We stop AI from lying about its own work. Tools that make AI agents prove their work.","address":{"@type":"PostalAddress","addressRegion":"ON","addressCountry":"CA"},"founder":{"@type":"Person","name":"Collin Nerdahl","jobTitle":"CEO","url":"https://collinnerdahl.com/"},"sameAs":["https://github.com/PrimeFoldTools","https://x.com/PrimeFoldTools"]},
+{"@type":"WebSite","@id":"https://primefold.tools/#site","url":"https://primefold.tools/","name":"PrimeFold Tools","publisher":{"@id":"https://primefold.tools/#org"}},
+{"@type":"SoftwareApplication","@id":"https://github.com/PrimeFoldTools/Andon#app","name":"Andon","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code, Codex","softwareVersion":"0.1.1","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/Andon","author":{"@id":"https://primefold.tools/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A claim-check Stop hook for coding agents: when the final message says done without a matching check on record, it asks for the receipt."}
+]}</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<!-- Lean pass (his 2026-11-02 verdict: "too much text still… visually interesting, clear, simple UX"): the body paragraphs under the fix and proof headings are gone;
+     each row and shelf item is one of his 2026-10-30 fold icons, a title and one short line; every icon gathers out of scatter as it scrolls in.
+     Look C2 (his 2026-11-02 verdicts: "c is my fav", then white/black/yellow/blue, "ok b"): the look C layout after monakadesign.online,
+     General Sans and IBM Plex Mono, the gold fold gathering out of a blue wisp as the hero scrolls (tools/fold_engine.js, the PrimeFold mark
+     from his 2026-10-30 icon sheet). Below the fold the claims ruler comes from look B (why.zero.university, daoism.systems). -->
+<header class="hero" id="hero">
+  <div class="stage">
+    <canvas id="fold" aria-hidden="true"></canvas>
+    <noscript><img class="fold-static" src="assets/fold-final.png" alt=""></noscript>
+    <div class="top">
+      <a class="id" href="index.html">PrimeFold Tools</a>
+      <nav><a href="built.html">Tools</a><a href="https://github.com/PrimeFoldTools">GitHub</a><a href="llms.txt">For agents</a></nav>
+    </div>
+    <div class="centre">
+      <h1>Your coding agent<br>says done.</h1>
+      <p class="h2">Andon asks for the receipt.</p>
+      <p class="line3 def">Andon is a small check that reads your agent's last message and asks for proof when it says done.</p>
+      <p class="line3">Free, open source, two lines to install, for Claude Code and Codex.</p>
+    </div>
+    <a class="button" href="built.html#andon">Install<br>Andon</a>
+    <a class="ghost" href="llms.txt">For agents: llms.txt</a>
+    <div class="scroll" aria-hidden="true">Scroll ↓</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="scene" id="problem">
+    <h2>Agents say done. Done is not proof.</h2>
+    <p>Our founder's agent said the whole photo archive was embedded. 1,926 of 28,709 were.</p>
+    <div class="card" id="replay" title="Click to skip the replay">
+      <div class="head"><span>claude-code, photo archive</span><span>Aug 29, 2026</span></div>
+      <div class="line agent"><span class="who">agent</span><span class="txt">Embedding all 28k is running now (detached, PID 40142 ... <span class="nb">~1–2h</span>).</span></div>
+      <div class="line me"><span class="who">collin</span><span class="txt">you sure?</span></div>
+      <div class="line log" data-type><span class="who">log</span><span class="txt">embed: candidates=1926 embedded=1926 errors=0</span></div>
+      <div class="line stop" data-type><span class="who">check</span><span class="txt">1,926 embedded. 2,225 of 28,709 searchable. The claim was not the receipt.</span></div>
+      <div class="meter-row"><span class="who">meter</span><div class="meter" role="meter" aria-valuenow="6.7" aria-valuemin="0" aria-valuemax="100" aria-label="claimed 100 percent, measured 6.7 percent"><i style="width:6.7%"></i></div><span class="mlabel">claimed 100%, measured 6.7%</span></div>
+    </div>
+    <p class="cap">A real session, every line verbatim. Our founder caught this one by hand. He typed "you sure?" and read the database. <a href="mailto:primefoldtools@gmail.com?subject=My%20agent%20said%20done">Have one of these? Send it.</a></p>
+  </section>
+</div>
+
+<!-- 2026-11-03 STAGE candidate, his ask: a scrolling log of failure modes the reader can relate to, and the ledger as the input.
+     Every card is a four-line entry from Andon's public DEFECT_LEDGER.md, verbatim (Defect + Countermeasure), read by
+     tools/site_receipts.py. The strip is moved by the page scroll alone (CSS scroll-driven animation, no timer); where the
+     browser lacks it, or on a phone, it is a plain list you scroll yourself. -->
+<section class="faillog" id="log">
+  <div class="pin">
+    <h2>Agents fail the same few ways.</h2>
+    <p class="log-body">18 defects from Andon's public ledger, each with its root cause and its fix. You will recognize your own week in here.</p>
+    <div class="ledger"><ol class="ledger-track">
+<li><blockquote><span class="when">2026-04</span><strong>The false &quot;done&quot;</strong><p><span class="k">Defect</span>The agent said a change was &quot;complete and tested.&quot; It had written the code but never run the tests. I trusted it, moved on, and the gap surfaced hours later.</p><p><span class="k">Fix</span>A Stop hook (<code>claim_check_hook.py</code>) that reads the turn-ending message for done-claims and requires a verification log entry before the turn can end. Warn first, block once trusted.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-04--the-false-done">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-04</span><strong>&quot;That doesn&#x27;t exist&quot; (it did)</strong><p><span class="k">Defect</span>Told to find a thing, the agent grepped one keyword, got nothing, and reported it absent. It was there the whole time — under a different name.</p><p><span class="k">Fix</span>Before concluding &quot;X isn&#x27;t here,&quot; search synonyms and old names, grep the <em>content</em> (not just the title), and check the version-control log for when it was added.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-04--that-doesnt-exist-it-did">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>Fixed five, claimed fourteen</strong><p><span class="k">Defect</span>Fixed the instances of a problem in the files I was looking at, then reported the <em>whole class</em> fixed. Nine more were sitting in files I hadn&#x27;t opened.</p><p><span class="k">Fix</span>Before any &quot;all / complete / whole&quot; claim about a class, <code>grep</code> the full set first and verify each — then scope the claim to exactly what was verified (&quot;5 of the daily surfaces,&quot; not &quot;the whole stream&quot;).</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--fixed-five-claimed-fourteen">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>Four parsers, four slightly different schemas</strong><p><span class="k">Defect</span>A config file was read by several scripts, each written from memory. One read the fields in a different order. It didn&#x27;t crash — it silently returned wrong results.</p><p><span class="k">Fix</span>One canonical loader that every consumer imports. If the structure isn&#x27;t checked in one place, it isn&#x27;t real.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--four-parsers-four-slightly-different-schemas">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>Tested the script, not the thing that runs</strong><p><span class="k">Defect</span>Declared a hook &quot;verified end-to-end&quot; after running the inner script by hand. The harness actually invokes a <em>wrapper</em> that reads stdin — which was never exercised.</p><p><span class="k">Fix</span>When the claim is &quot;it works end-to-end,&quot; the test must hit the actual production path — the wrapper the harness calls, under the real environment.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--tested-the-script-not-the-thing-that-runs">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>$100<code> matched </code>$1000</strong><p><span class="k">Defect</span>A checker used substring matching to compare a price. <code>&quot;$100&quot;</code> matched inside <code>&quot;$1000&quot;</code>, so a 10× error sailed through as &quot;no change.&quot;</p><p><span class="k">Fix</span>Word-boundary regex with the negative lookahead; never naive <code>in</code> for values that have longer supersets.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--100-matched-1000">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>Repeated a subagent&#x27;s &quot;finding&quot; as fact</strong><p><span class="k">Defect</span>A helper agent reported a surprising result; I relayed it as true. It was wrong — the agent had missed a detail (a symlink, in that case).</p><p><span class="k">Fix</span>Spot-check every <em>surprising</em> subagent finding by re-running its evidence yourself before repeating it.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--repeated-a-subagents-finding-as-fact">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>Acted on yesterday&#x27;s map</strong><p><span class="k">Defect</span>Started a session from the last handoff note and recommended work that was already done — a parallel session had shipped it between the handoff and now.</p><p><span class="k">Fix</span>Before acting on a handoff, re-read the version-control log since its timestamp. Freshest reality wins.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--acted-on-yesterdays-map">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-05</span><strong>The gate that jammed the worker</strong><p><span class="k">Defect</span>Shipped an enforcement hook in block-mode-by-default. First real use, it blocked a legitimate turn with no obvious way out. Trust in the hook cratered immediately.</p><p><span class="k">Fix</span>Default to <em>warn</em>; provide an env-var escape; promote to <em>block</em> only after it&#x27;s been tuned. Make every gate advisory until proven.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-05--the-gate-that-jammed-the-worker">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-06</span><strong>The test that passed by luck</strong><p><span class="k">Defect</span>A test was green, so the fix looked solid. The test was asserting something that happened to be true in one case, not the property that actually mattered.</p><p><span class="k">Fix</span>Assert the real invariant, then mutate the code to confirm the test <em>fails</em> on a plausible bad version. If a bad mutation survives, the test isn&#x27;t guarding anything.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-06--the-test-that-passed-by-luck">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-06</span><strong>Rebuilt what already existed</strong><p><span class="k">Defect</span>Asked for a capability, the agent built it from scratch. The codebase already had it. Now there were two, subtly different.</p><p><span class="k">Fix</span>Search-before-building, every time: grep the code, check memory, look for an existing tool. A 30-second search beats three sessions of duplicate-bug cleanup.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-06--rebuilt-what-already-existed">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-06</span><strong>Reversed a right answer when pushed</strong><p><span class="k">Defect</span>Challenged with &quot;you sure?&quot;, the agent retracted a <em>correct</em> claim after eyeballing partial evidence — overcorrecting into a new error.</p><p><span class="k">Fix</span>Treat a challenge as a trigger to gather more evidence and compute the <em>full</em> picture — then keep or change the claim on the evidence, not the pressure.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-06--reversed-a-right-answer-when-pushed">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-09</span><strong>The gate that wasn&#x27;t running</strong><p><span class="k">Defect</span>An enforcement hook appeared fully configured: on disk, wired in the harness config, hundreds of historical gate-log records in the fire log that appeared to indicate activity, but did not establish successful direct-command invocation. During an observed session, dozens of invocation failures were recorded across three hooks and were present in the transcript but not acted on. The execute bit was missing. Tests invoked the scripts through an interpreter, which doesn&#x27;t require the execute bit; the harness invoked them as direct commands, which does. Two invocation paths, silently diverged.</p><p><span class="k">Fix</span>Before declaring any hook live, invoke it as a direct command with a benign payload and alarm on a launch/permission failure (distinct from a policy denial). Cross-check configuration against disk in both directions. These checks belong in an automated test — not just a design rule.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-09--the-gate-that-wasnt-running">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-09</span><strong>The gate that could be alibi&#x27;d</strong><p><span class="k">Defect</span>The claim-check gate accepted <em>any</em> fresh verification entry as satisfying <em>any</em> done-claim. It checked only that some recent log line existed — never that the entry referred to the claim, or came from the same session. So a bare <code>log_claim &quot;done&quot; &quot;checked&quot;</code> cleared the gate; a genuine verification of task A licensed an unverified claim about task B; and — worst — on a shared home directory one session&#x27;s entry cleared every other session&#x27;s claim, invisibly.</p><p><span class="k">Fix</span>Bind the entry to the claim <em>and</em> the session. <code>log_claim.py</code> stamps the session id (from <code>CLAUDE_CODE_SESSION_ID</code>) and a content-token fingerprint of the claim <em>and</em> its verification; for claims with subject tokens, the gate checks for a fresh same-session entry whose fingerprint overlaps that claim&#x27;s sentence. Subjectless claims use a same-session freshness fallback (see the README limits). Closure verbs and selected generic dev nouns are stopworded so &quot;done&quot; cannot match on that word alone. The block message names the verification, not the unblock command. Legacy (pre-binding) entries are honored only while the log has no binding-schema entry. Once a binding-schema entry exists, older entries no longer qualify; in-flight work may need a new-format receipt.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-09--the-gate-that-could-be-alibid">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-09</span><strong>Tightened for precision, lost the recall — then overshot fixing it</strong><p><span class="k">Defect</span>The claim detector caught 4 of 13 ordinary done-claims. <code>Implemented the migration.</code> fired; <code>I&#x27;ve implemented the migration.</code> — how agents actually write — did not. <code>Task complete!</code> and <code>The fix is in place.</code> passed unseen. Reported with a repro in issue #3.</p><p><span class="k">Fix</span>Additions that stand on their own — a first-person lead-in (the determiner rule protecting <code>Fixed income securities…</code> untouched), the missing standalone verbs, a subject-noun closure form, and state verbs each carrying their own guard. Every accumulated example is a checked-in corpus, and the test that matters asserts the patch is <em>additive</em>: no previously detected example in that corpus may stop being caught.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-09--tightened-for-precision-lost-the-recall--then-overshot-fixing-it">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-09</span><strong>The fix that kept breaking what it was fixing</strong><p><span class="k">Defect</span>Catching result-claims (<code>the tests pass</code>) needs the detector to know when a clause <em>asserts</em> something, so exemptions were added for negation, attribution and conditionals. Each round of review found claims those exemptions had silently suppressed: four, then two, then one. Each fix was correct and produced the next one.</p><p><span class="k">Fix</span>Drop the feature that needed the exemptions rather than keep tuning them, and replace instance-checking with a property: a corpus-wide test that the patch only ever adds detections. Mutation-checked — reintroduce a broad exemption and it fails.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-09--the-fix-that-kept-breaking-what-it-was-fixing">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-09</span><strong>The rollback that could roll back to itself</strong><p><span class="k">Defect</span>A deploy-rehearsal gate proved rollback by rebuilding the previous commit&#x27;s image, redeploying it by digest against the same database, and checking that it came up with the existing data intact. Caught in design, before the gate&#x27;s first run: if the previous commit only changed docs, it builds a byte-identical image with the same digest, and the gate &quot;rolls back&quot; by redeploying the exact thing it claims to have rolled back from. Green, and proving nothing.</p><p><span class="k">Fix</span>Stamp every build with the commit it came from (an image revision label), so two commits always produce two digests. The gate asserts <em>digest A ≠ digest B</em>, and that each label names its own commit, before it redeploys anything. The label reads like metadata, so it&#x27;s recorded as load-bearing next to the code: deleting it makes nothing fail loudly; it makes the proof go quietly vacuous.</p><span class="who">Contributed by @w-30x (PR #6).</span><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-09--the-rollback-that-could-roll-back-to-itself">Full entry</a></blockquote></li>
+<li><blockquote><span class="when">2026-10</span><strong>The witness who wrote their own alibi</strong><p><span class="k">Defect</span>After binding (above), a verification entry had to be fresh, same-session and on-topic — but the agent still wrote it. <code>log_claim.py &quot;migration complete&quot; &quot;ran the migration tests&quot;</code> cleared the gate whether or not a test had run. The gated actor and the evidence author were the same actor.</p><p><span class="k">Fix</span>An opt-in evidence mode (<code>CLAIM_CHECK_EVIDENCE=tool</code>) that ignores the agent&#x27;s line and requires a passing verification run the harness recorded in the session transcript: allowlisted command, same <code>sessionId</code>, inside the freshness window, a finished non-error result, and a command line that matches a small fixed grammar so its exit status <em>is</em> the verification&#x27;s. The recorded-result markers were read off real transcripts first, which turned up three ways a run reports success without having succeeded: a backgrounded command (<code>backgroundTaskId</code>, including auto-backgrounding), a command that hit the tool timeout (<code>timedOutAfterMs</code>), and a nonzero exit reinterpreted as success (<code>returnCodeInterpretation</code>) — all with <code>is_error: false</code>. A first version parsed arbitrary shell and checked separators; four rounds of review kept finding lines where the parser and the shell disagreed (a <code>#</code> comment swallowing a newline, a mid-word quote, <code>pipefail</code> &quot;set&quot; inside a dead branch). The fix was to stop parsing shell and accept only an allowlisted grammar.</p><a class="more" href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md#2026-10--the-witness-who-wrote-their-own-alibi">Full entry</a></blockquote></li>
+    </ol></div>
+    <p class="cap log-more">Four of the 18 here. All of them on GitHub. <a href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md">Add yours on GitHub.</a></p>
+    <p class="cap log-cap">Caught one of your own? The ledger takes entries in the same four-line shape. <a href="https://github.com/PrimeFoldTools/Andon/blob/main/DEFECT_LEDGER.md">Add yours on GitHub.</a></p>
+  </div>
+</section>
+
+<section class="chapter" id="fix">
+  <h2>On a factory floor, anyone can stop the line.</h2>
+</section>
+
+<div class="wrap">
+  <section class="scene">
+    <ol class="tiles rows">
+<li><div class="ico"><canvas class="fold-icon" data-icon="1" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <path class="g" d="M10 16 H90 a6 6 0 0 1 6 6 V62 a6 6 0 0 1 -6 6 H44 L26 86 V68 H10 a6 6 0 0 1 -6 -6 V22 a6 6 0 0 1 6 -6 Z"/>
+        <path class="s" stroke-width="7" style="stroke:var(--smoke)" d="M22 42 L34 54 L56 30"/>
+        <text x="76" y="56" text-anchor="middle" class="bg" font-family="Hanken Grotesk, sans-serif" font-weight="600" font-size="34">?</text>
+      </svg></noscript></div><strong>Catches a false done</strong><span>Reads the final message. Finds the matching check.</span></li>
+<li><div class="ico"><canvas class="fold-icon" data-icon="4" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <rect class="g" x="34" y="6" width="8" height="22" rx="3"/><rect class="g" x="58" y="6" width="8" height="22" rx="3"/>
+        <path class="g" d="M22 28 H78 V46 a28 28 0 0 1 -28 28 a28 28 0 0 1 -28 -28 Z"/>
+        <path class="s" stroke-width="8" d="M50 74 V84 Q50 94 62 94 H90"/>
+      </svg></noscript></div><strong>Runs in Claude Code and Codex</strong><span>Warn mode by default. Nothing blocks until you say so.</span></li>
+<li><div class="ico"><canvas class="fold-icon" data-icon="3" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <path class="g" d="M20 6 H80 V92 L72 86 L64 92 L56 86 L48 92 L40 86 L32 92 L24 86 L20 89 Z"/>
+        <path class="s" stroke-width="5" style="stroke:var(--smoke)" d="M29 26 L34 31 L42 21 M29 47 L34 52 L42 42 M29 68 L34 73 L42 63 M50 27 H70 M50 48 H70 M50 69 H66"/>
+      </svg></noscript></div><strong>Open source, MIT</strong><span>Standard library. Read it <a href="https://github.com/PrimeFoldTools/Andon#known-limits--read-before-you-trust-it">before you trust it</a>.</span></li>
+    </ol>
+    <!-- 2026-11-03 stage candidate, his ask: the flow diagram as an animated factory line (tools/line_engine.js, scroll-driven).
+         The words are the previous diagram's. Authored at the stop moment, so JavaScript off and reduced motion show that frame. -->
+    <figure class="drawing convey" id="convey">
+      <div class="pin">
+      <svg id="line" viewBox="0 0 1000 400" role="img" aria-labelledby="dw-title">
+        <title id="dw-title">How a turn ends with Andon installed.</title>
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#161616" stroke-width="1"/></pattern>
+          <clipPath id="beltclip"><rect x="0" y="0" width="1000" height="400"/></clipPath>
+          <radialGradient id="lampglow"><stop offset="0" stop-color="#FFD900" stop-opacity=".9"/><stop offset="1" stop-color="#FFD900" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="1000" height="400" fill="url(#grid)"/>
+        <g font-family="General Sans, system-ui, sans-serif" font-size="14" fill="#FFFFFF" clip-path="url(#beltclip)">
+          <text x="40" y="212" font-size="12.5" fill="#A9A9A9">agent ends its turn →</text>
+          <text x="960" y="212" text-anchor="end" font-size="12.5" fill="#A9A9A9">continue: the turn ends as written →</text>
+          <rect x="40" y="286" width="920" height="14" rx="2" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/>
+          <g class="roller" data-c="60 318" transform="rotate(1260 60 318)"><circle cx="60" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="60" y1="309" x2="60" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="140 318" transform="rotate(1260 140 318)"><circle cx="140" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="140" y1="309" x2="140" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="220 318" transform="rotate(1260 220 318)"><circle cx="220" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="220" y1="309" x2="220" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="300 318" transform="rotate(1260 300 318)"><circle cx="300" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="300" y1="309" x2="300" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="380 318" transform="rotate(1260 380 318)"><circle cx="380" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="380" y1="309" x2="380" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="460 318" transform="rotate(1260 460 318)"><circle cx="460" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="460" y1="309" x2="460" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="540 318" transform="rotate(1260 540 318)"><circle cx="540" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="540" y1="309" x2="540" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="620 318" transform="rotate(1260 620 318)"><circle cx="620" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="620" y1="309" x2="620" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="700 318" transform="rotate(1260 700 318)"><circle cx="700" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="700" y1="309" x2="700" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="780 318" transform="rotate(1260 780 318)"><circle cx="780" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="780" y1="309" x2="780" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="860 318" transform="rotate(1260 860 318)"><circle cx="860" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="860" y1="309" x2="860" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="roller" data-c="940 318" transform="rotate(1260 940 318)"><circle cx="940" cy="318" r="9" fill="none" stroke="#8A8A8A" stroke-width="1.2"/><line x1="940" y1="309" x2="940" y2="327" stroke="#8A8A8A" stroke-width="1.2"/></g>
+          <g class="item" transform="translate(650 0)"><rect y="226" width="160" height="54" rx="3" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/><text x="80" y="258" text-anchor="middle" font-size="12.5" fill="#A9A9A9">tests pass</text><g transform="translate(142 220)"><circle r="9" fill="#FFD900"/><path d="M-4 0l3 3 5-6" fill="none" stroke="#000" stroke-width="1.8"/></g></g>
+          <g class="item" transform="translate(420 -36)"><rect y="226" width="160" height="54" rx="3" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/><text x="80" y="258" text-anchor="middle" font-size="12.5" fill="#A9A9A9">"the migration is complete"</text><g class="tag" opacity="0" transform="translate(142 220)"><circle r="9" fill="none" stroke="#FFD900" stroke-width="1.6"/><text y="4" text-anchor="middle" font-size="11" fill="#FFD900">?</text></g></g>
+          <g class="item" transform="translate(190 0)"><rect y="226" width="160" height="54" rx="3" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/><text x="80" y="258" text-anchor="middle" font-size="12.5" fill="#A9A9A9">lint clean</text><g transform="translate(142 220)"><circle r="9" fill="#FFD900"/><path d="M-4 0l3 3 5-6" fill="none" stroke="#000" stroke-width="1.8"/></g></g>
+          <g class="item" transform="translate(-40 0)"><rect y="226" width="160" height="54" rx="3" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/><text x="80" y="258" text-anchor="middle" font-size="12.5" fill="#A9A9A9">docs updated</text><g transform="translate(142 220)"><circle r="9" fill="#FFD900"/><path d="M-4 0l3 3 5-6" fill="none" stroke="#000" stroke-width="1.8"/></g></g>
+          <line x1="440" y1="92" x2="440" y2="286" stroke="#8A8A8A" stroke-width="1.6"/>
+          <line x1="560" y1="92" x2="560" y2="286" stroke="#8A8A8A" stroke-width="1.6"/>
+          <rect x="432" y="84" width="136" height="10" rx="2" fill="#8A8A8A"/>
+          <circle class="glow" cx="500" cy="60" r="46" fill="url(#lampglow)" opacity=".55"/>
+          <circle class="lamp" cx="500" cy="60" r="14" fill="#FFD900" stroke="#FFFFFF" stroke-width="1.2"/>
+          <rect x="418" y="112" width="164" height="62" rx="3" fill="#0B0B0B" stroke="#8A8A8A" stroke-width="1.2"/>
+          <text x="500" y="133" text-anchor="middle" font-size="13">Andon reads the claim log</text>
+          <text x="500" y="151" text-anchor="middle" fill="#A9A9A9" font-size="11.5">a proof row for this claim,</text>
+          <text x="500" y="166" text-anchor="middle" fill="#A9A9A9" font-size="11.5">this session, last 15 minutes</text>
+          <line class="tie" x1="582" y1="196" x2="640" y2="124" stroke="#FFD900" stroke-width="1.2" stroke-dasharray="4 4" opacity="1"/>
+          <g class="stopcard" opacity="1">
+            <rect x="640" y="50" width="250" height="76" rx="3" fill="#FFFFFF" stroke="#FFD900" stroke-width="1.6"/>
+            <text x="765" y="76" text-anchor="middle" fill="#000000">stop and ask for the receipt</text>
+            <text x="765" y="96" text-anchor="middle" fill="#3A3A3A" font-size="12.5">warn mode: asks, never blocks</text>
+            <text x="765" y="114" text-anchor="middle" fill="#3A3A3A" font-size="12.5">block mode: the turn waits</text>
+          </g>
+          <line x1="40" y1="372" x2="960" y2="372" stroke="#8A8A8A" stroke-width=".8"/>
+          <line x1="40" y1="366" x2="40" y2="378" stroke="#8A8A8A" stroke-width=".8"/>
+          <line x1="960" y1="366" x2="960" y2="378" stroke="#8A8A8A" stroke-width=".8"/>
+          <text x="500" y="366" text-anchor="middle" fill="#A9A9A9" font-size="11.5">one turn, in warn mode by default</text>
+        </g>
+      </svg>
+      <figcaption class="cap">How a turn ends with Andon installed.</figcaption>
+      </div>
+    </figure>
+  </section>
+
+  <section class="scene" id="proof">
+    <h2>Proof you can run yourself.</h2>
+    <div class="demo">
+      <div class="card">
+        <div class="head"><span>hooks/claim_check_hook.py, warn mode</span><span>clean clone 15ef5bb</span></div>
+        <div class="line agent"><span class="who">agent</span><span class="txt">the migration is complete and the tests are fixed</span></div>
+        <div class="line"><span class="who">andon</span><pre class="txt">⚠️  Claim-check enforcer — done-claim detected without a fresh verification log entry satisfying the applicable correspondence or fallback rule.
+Matched phrases:
+  - &quot;is complete&quot;
+  - &quot;are fixed&quot;</pre></div>
+      </div>
+      <p class="cap">The hook's real response, from a clean clone. <a href="https://github.com/PrimeFoldTools/Andon#reproduce-it-in-30-seconds">Run it yourself in 30 seconds.</a></p>
+    </div>
+    <p>539 tests pass on a clean clone.</p>
+
+    <div class="ruler" id="ruler">
+      <div class="lab">Done-claims our hook stopped, week by week</div>
+      <div class="scrub" id="scrub" role="slider" aria-label="Done-claims our hook stopped, week by week" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" tabindex="0"><span class="pin" id="pin"></span></div>
+      <div class="out"><b id="cum">331</b><span id="cap">stopped for a missing receipt since 2026-05-19, the last week still open</span></div>
+      <p class="def">A stop means the agent said "done" or "fixed" and no proof was on record. 528 claims checked; 331 stopped; 53 proven afterwards.</p>
+    </div>
+  </section>
+
+  <!-- 2026-11-03 stage candidate, his ask: a spot for forks and users who put it in their projects. No written testimonials
+       exist, so the spot shows three facts from GitHub (tools/site_receipts.py) with a link to each; nothing quoted. -->
+  <section class="scene" id="adopters">
+    <h2>Read by people who then changed it.</h2>
+    <ul class="tiles facts">
+<li><strong>@alex-spataru rebuilt the hook and the ledger inside Serial-Studio, a 7,000-star project.</strong><span><a href="https://github.com/Serial-Studio/Serial-Studio">Serial-Studio on GitHub</a></span></li>
+<li><strong>@w-30x wrote a ledger entry from their own deploy gate, and the argument behind the evidence mode.</strong><span><a href="https://github.com/PrimeFoldTools/Andon/pull/6">pull request 6</a></span></li>
+<li><strong>@gcracolici fixed the detector&#x27;s recall on done-claims written the way agents write them.</strong><span><a href="https://github.com/PrimeFoldTools/Andon/pull/4">pull request 4</a></span></li>
+    </ul>
+    <p class="cap adopt-cap">Three public changes, each with its link. If Andon runs in your project, email primefoldtools@gmail.com and we will list it here.</p>
+  </section>
+
+  <main>
+    <section class="band">
+      <h2>Three things on the shelf.</h2>
+      <ul class="tiles shelf">
+<li><div class="ico"><canvas class="fold-icon" data-icon="2" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <rect class="s" stroke-width="5" x="8" y="8" width="84" height="84" rx="10"/>
+        <circle class="s" cx="50" cy="50" r="33" stroke-width="4"/>
+        <circle class="g" cx="50" cy="50" r="26"/>
+        
+      </svg></noscript></div><strong>Andon</strong><span>Catches a false &quot;done&quot; before it reaches you.</span><span class="price">free</span></li>
+<li><div class="ico"><canvas class="fold-icon" data-icon="0" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <mask id="pfmask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+          <image href="data:image/png;base64,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" x="0" y="0" width="100" height="100"/>
+        </mask>
+        <circle class="s" cx="50" cy="50" r="47" stroke-width="5.5"/>
+        <rect class="g" x="0" y="0" width="100" height="100" mask="url(#pfmask)"/>
+        <circle class="g" cx="50" cy="27.1" r="3"/>
+      </svg></noscript></div><strong>AI Agent Operator Kit</strong><span>Runs the same operator workflow every session.</span><span class="price">free</span></li>
+<li><div class="ico"><canvas class="fold-icon" data-icon="5" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <path class="g" d="M50 4 L88 18 V46 C88 70 72 86 50 96 C28 86 12 70 12 46 V18 Z"/>
+        <path class="s" stroke-width="9" style="stroke:var(--smoke)" d="M30 50 L45 64 L70 36"/>
+      </svg></noscript></div><strong>Verification Kit</strong><span>Catches the three mistakes Andon lets through.</span><span class="price">$27</span><span class="guarantee">Try it for 30 days. If it is not worth $27 to you, email us and we refund it. No questions.</span></li>
+      </ul>
+      <p class="more"><a href="built.html">See the shelf</a></p>
+    </section>
+
+    <section class="band door">
+      <div class="ico"><canvas class="fold-icon" data-icon="6" aria-hidden="true"></canvas><noscript><svg viewBox="0 0 100 100" aria-hidden="true"><style>:root{--smoke:#000}.g{fill:#FFD900}.s{fill:none;stroke:#FFD900;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>
+        <rect class="g" x="6" y="20" width="88" height="62" rx="6"/>
+        <path class="s" stroke-width="5" style="stroke:var(--smoke)" d="M12 28 L50 56 L88 28"/>
+      </svg></noscript></div>
+      <h2>Send us your incident.</h2>
+      <p>One incident: what your agent claimed, what was true. First three free. You get back the check that would have caught it.</p>
+      <p class="ask"><a href="mailto:primefoldtools@gmail.com?subject=My%20agent%20said%20done">Email primefoldtools@gmail.com</a></p>
+      <p class="rev">A script supplies every figure on this page, as read on Nov 3, 2026.</p>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <li>PrimeFold Tools, Ontario, Canada</li>
+      <li><a href="https://collinnerdahl.com">Collin Nerdahl, CEO</a></li>
+      <li><a href="https://primefoldtrading.com">PrimeFold Trading</a></li>
+      <li><a href="https://github.com/PrimeFoldTools">GitHub</a></li>
+      <li><a href="mailto:primefoldtools@gmail.com">primefoldtools@gmail.com</a></li>
+      <li><a href="built.html">Tools</a></li>
+      <li><a href="llms.txt">llms.txt</a></li>
+      <li><a href="https://github.com/PrimeFoldTools/Andon#known-limits--read-before-you-trust-it">What the hook does not catch</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script data-role="replay">
+(function(){
+  var card=document.getElementById("replay"); if(!card) return;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // Chaos to order (his 2026-11-02 motif rule): the log row resolves out of scattered characters into one exact line,
+  // then the check row types in order. Same characters, same total time; a fixed seed so every visit resolves the same way.
+  var spans=[], done=false, seed=11; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff}
+  [].slice.call(card.querySelectorAll("[data-type] .txt")).forEach(function(t){
+    var s=t.textContent, row=[]; t.textContent="";
+    for(var i=0;i<s.length;i++){var c=document.createElement("span");c.className="c";c.textContent=s[i];t.appendChild(c);row.push(c)}
+    if(t.parentNode.classList.contains("log")){for(var j=row.length-1;j>0;j--){var r=Math.floor(rnd()*(j+1)),x=row[j];row[j]=row[r];row[r]=x}}
+    spans=spans.concat(row);
+  });
+  function finish(){done=true;spans.forEach(function(c){c.className="c on"})}
+  card.addEventListener("click",finish);
+  var k=0,started=false; function step(){if(done)return;if(k<spans.length){spans[k++].className="c on";setTimeout(step,k<48?10:6)}}
+  function start(){if(started)return;started=true;setTimeout(step,200)}
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.intersectionRatio>=.4){start();io.disconnect()}})},{threshold:[.4]});io.observe(card)}
+  else start();
+})();
+</script>
+<script data-role="ruler">
+// The claims ruler (from look B: zero's scrubbable ruler, daoism's level bar). One bar per week from data/receipts.json.
+// It changes text only when a pointer or a key moves along it. No timers, so no number ever counts up on its own.
+(function(){
+  var WEEKLY=[["2026-05-18", 10], ["2026-05-25", 8], ["2026-06-01", 11], ["2026-06-08", 25], ["2026-06-15", 24], ["2026-06-22", 14], ["2026-06-29", 4], ["2026-07-06", 2], ["2026-07-13", 19], ["2026-07-20", 16], ["2026-07-27", 9], ["2026-08-03", 5], ["2026-08-10", 10], ["2026-08-17", 13], ["2026-08-24", 7], ["2026-08-31", 15], ["2026-09-07", 30], ["2026-09-14", 10], ["2026-09-21", 16], ["2026-09-28", 24], ["2026-10-05", 17], ["2026-10-12", 12], ["2026-10-19", 12], ["2026-10-26", 18]];
+  var sc=document.getElementById('scrub'), pin=document.getElementById('pin'), cap=document.getElementById('cap'), cum=document.getElementById('cum');
+  if(!sc||!WEEKLY.length) return;
+  var max=Math.max.apply(null, WEEKLY.map(function(w){return w[1];}));
+  WEEKLY.forEach(function(w){ var i=document.createElement('i'); i.style.height=Math.max(3, Math.round(34*w[1]/max))+'px'; sc.insertBefore(i, pin); });
+  var run=[]; WEEKLY.reduce(function(a,w){ run.push(a+w[1]); return a+w[1]; }, 0);
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], last=WEEKLY.length-1, k=last, rest=cap.textContent;
+  function show(i){ k=i; var w=WEEKLY[i], d=new Date(w[0]+'T00:00:00Z');
+    pin.style.left=(12+(i+.5)*((sc.clientWidth-24)/WEEKLY.length))+'px';
+    sc.setAttribute('aria-valuenow', String(Math.round(100*i/last)));
+    if(i===last){ cum.textContent=run[i].toLocaleString('en-US'); cap.textContent=rest; }
+    else { cum.textContent=run[i].toLocaleString('en-US'); cap.textContent='by the week of '+MON[d.getUTCMonth()]+' '+d.getUTCDate()+', '+w[1]+' that week'; } }
+  function at(e){ var b=sc.getBoundingClientRect(), x=(e.clientX-b.left-12)/(b.width-24); return Math.min(last, Math.max(0, Math.floor(x*WEEKLY.length))); }
+  sc.addEventListener('mousemove', function(e){ show(at(e)); });
+  sc.addEventListener('mouseleave', function(){ show(last); });
+  sc.addEventListener('touchstart', function(e){ show(at(e.touches[0])); }, {passive:true});
+  sc.addEventListener('touchmove', function(e){ show(at(e.touches[0])); }, {passive:true});
+  sc.addEventListener('touchend', function(){ show(last); });
+  sc.addEventListener('keydown', function(e){ if(e.key==='ArrowLeft'){ show(Math.max(0,k-1)); e.preventDefault(); } if(e.key==='ArrowRight'){ show(Math.min(last,k+1)); e.preventDefault(); } if(e.key==='Home'){ show(0); } if(e.key==='End'){ show(last); } });
+  addEventListener('resize', function(){ show(k); });
+  show(last);
+})();
+</script>
+<script data-role="line">
+// The line: how a turn ends with Andon installed, as a conveyor. Scroll is the only clock (one requestAnimationFrame per
+// scroll event); no timer, no library, no text written by script. Claims ride the belt left to right; the station in the
+// middle reads the claim log; a claim with a receipt (gold stamp) rides on; the one without stops the line: the lamp
+// lights, the item lifts, the stop card shows. Warn mode: the item is tagged "receipt?" and the line resumes.
+// The SVG is authored at the stop moment (p = 0.62), so JavaScript off and reduced motion both show that frame.
+(function(){
+  var sec=document.getElementById('convey'), svg=document.getElementById('line'); if(!sec||!svg) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, PIN=.62;
+  var items=[].slice.call(svg.querySelectorAll('.item')), rollers=[].slice.call(svg.querySelectorAll('.roller'));
+  var lamp=svg.querySelector('.lamp'), glow=svg.querySelector('.glow'), stop=svg.querySelector('.stopcard'), tag=svg.querySelector('.tag'), tie=svg.querySelector('.tie');
+  var X0=[-50,-280,-510,-740], SPEED=1400;   // start x per item; belt distance over the first half of the runway
+  function cl(v){ return Math.max(0,Math.min(1,v)); } function ease(s){ return 1-Math.pow(1-s,3); }
+  function frame(p){
+    var o = p<.5 ? p/.5*700 : (p<.75 ? 700 : 700+(p-.75)/.25*700);        // belt offset: runs, halts at the station, runs again
+    var lit = p<.5 ? 0 : (p<.9 ? cl((p-.5)/.08) : 1-cl((p-.9)/.1));          // the lamp: on at the stop, off once the line clears
+    var lift = p<.5 ? 0 : (p<.7 ? ease(cl((p-.5)/.2)) : 1-ease(cl((p-.7)/.06)));   // the unreceipted item lifts, then is set back down
+    var shown = cl((p-.52)/.1), tagged = cl((p-.7)/.05);
+    for(var i=0;i<items.length;i++){ var x=X0[i]+o, y=(i===1)?-36*lift:0; items[i].setAttribute('transform','translate('+x.toFixed(1)+' '+y.toFixed(1)+')'); }
+    for(var r=0;r<rollers.length;r++){ var c=rollers[r].getAttribute('data-c').split(' '); rollers[r].setAttribute('transform','rotate('+(o*1.8).toFixed(1)+' '+c[0]+' '+c[1]+')'); }
+    lamp.setAttribute('fill', lit>.5?'#FFD900':'#3A3A3A'); glow.setAttribute('opacity',(lit*.55).toFixed(2));
+    stop.setAttribute('opacity',shown.toFixed(2)); tie.setAttribute('opacity',(shown*lift).toFixed(2)); tag.setAttribute('opacity',tagged.toFixed(2));
+    window.__line=p;
+  }
+  function progress(){ var span=Math.max(1, sec.offsetHeight-innerHeight), top=sec.getBoundingClientRect().top; return cl(-top/span); }
+  var queued=false; function onScroll(){ if(queued) return; queued=true; requestAnimationFrame(function(){ queued=false; frame(progress()); }); }
+  if(reduce){ frame(PIN); return; }
+  addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll); frame(progress());
+})();
+
+</script>
+<script data-role="fold">
+// The gold fold, gathered out of a blue wisp by scrolling. No library, no timer, no loop: it redraws only when the page
+// scrolls or resizes (one requestAnimationFrame per scroll event, to coalesce them). The hero's progress p runs 0 → 1 over
+// the hero's scroll runway (hero height minus one screen), so the mark is fully formed before the receipt card scrolls into
+// view. Each small icon (canvas.fold-icon, data-icon = index into his 2026-10-30 icon sheet) gathers the same way as it
+// rises through the lower half of the screen: scattered potential → ordered form, his "chaos turning into order" rule.
+// 2026-11-03 motion pass, proposal 1: three tiles in a row land one after another, left first, each column 0.12 of the
+// gather window later (about 45 px of scroll); one column on a phone, so no offset there.
+// 2026-11-03 STAGE candidate (his picks: Monaka's smoke fills the window, Zero gives the hand something to do): the hero's
+// scattered state spans the whole screen instead of a cloud above the title, the pointer pushes the unformed facets and
+// haze aside (weight 1-e, so the formed mark never moves), and a faint blue trace (#trace, drawn by this script, no timer)
+// drifts behind the page below the hero. Phones and reduced motion: no pointer, no trace.
+// Reduced motion: every fold is pinned at 1 and drawn once. JavaScript off: the <noscript> still (hero) or SVG (icons) shows.
+// Source geometry: the company icons from design-passes/company-icons-source-20261030.html, rasterised and cut into facets
+// on a jittered grid, the way the 10-29 fold engine did with Delaunay. Blue lives only here.
+(function(){
+  var ICONS=["<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <mask id=\"pfmask\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"100\" height=\"100\">\n          <image href=\"data:image/png;base64,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\" x=\"0\" y=\"0\" width=\"100\" height=\"100\"/>\n        </mask>\n        <circle class=\"s\" cx=\"50\" cy=\"50\" r=\"47\" stroke-width=\"5.5\"/>\n        <rect class=\"g\" x=\"0\" y=\"0\" width=\"100\" height=\"100\" mask=\"url(#pfmask)\"/>\n        <circle class=\"g\" cx=\"50\" cy=\"27.1\" r=\"3\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M10 16 H90 a6 6 0 0 1 6 6 V62 a6 6 0 0 1 -6 6 H44 L26 86 V68 H10 a6 6 0 0 1 -6 -6 V22 a6 6 0 0 1 6 -6 Z\"/>\n        <path class=\"s\" stroke-width=\"7\" style=\"stroke:var(--smoke)\" d=\"M22 42 L34 54 L56 30\"/>\n        <text x=\"76\" y=\"56\" text-anchor=\"middle\" class=\"bg\" font-family=\"Hanken Grotesk, sans-serif\" font-weight=\"600\" font-size=\"34\">?</text>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"s\" stroke-width=\"5\" x=\"8\" y=\"8\" width=\"84\" height=\"84\" rx=\"10\"/>\n        <circle class=\"s\" cx=\"50\" cy=\"50\" r=\"33\" stroke-width=\"4\"/>\n        <circle class=\"g\" cx=\"50\" cy=\"50\" r=\"26\"/>\n        \n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M20 6 H80 V92 L72 86 L64 92 L56 86 L48 92 L40 86 L32 92 L24 86 L20 89 Z\"/>\n        <path class=\"s\" stroke-width=\"5\" style=\"stroke:var(--smoke)\" d=\"M29 26 L34 31 L42 21 M29 47 L34 52 L42 42 M29 68 L34 73 L42 63 M50 27 H70 M50 48 H70 M50 69 H66\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"g\" x=\"34\" y=\"6\" width=\"8\" height=\"22\" rx=\"3\"/><rect class=\"g\" x=\"58\" y=\"6\" width=\"8\" height=\"22\" rx=\"3\"/>\n        <path class=\"g\" d=\"M22 28 H78 V46 a28 28 0 0 1 -28 28 a28 28 0 0 1 -28 -28 Z\"/>\n        <path class=\"s\" stroke-width=\"8\" d=\"M50 74 V84 Q50 94 62 94 H90\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <path class=\"g\" d=\"M50 4 L88 18 V46 C88 70 72 86 50 96 C28 86 12 70 12 46 V18 Z\"/>\n        <path class=\"s\" stroke-width=\"9\" style=\"stroke:var(--smoke)\" d=\"M30 50 L45 64 L70 36\"/>\n      </svg>", "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"0 0 100 100\"><style>:root{--smoke:#000}.g{fill:#fff}.s{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}.bg{fill:#000}.cut{stroke:#000;stroke-width:3;paint-order:stroke}</style>\n        <rect class=\"g\" x=\"6\" y=\"20\" width=\"88\" height=\"62\" rx=\"6\"/>\n        <path class=\"s\" stroke-width=\"5\" style=\"stroke:var(--smoke)\" d=\"M12 28 L50 56 L88 28\"/>\n      </svg>"];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, S=240;
+  function ease(s){ return 1-Math.pow(1-s,3); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function gold(svg){ return svg.replace('.g{fill:#fff}','.g{fill:#FFD900}').replace('stroke:#fff','stroke:#FFD900').replace('.bg{fill:#000}','.bg{fill:none}'); }   // the icon as it is drawn once formed
+  function raster(svg, cb, dil){
+    var c=document.createElement('canvas'); c.width=c.height=S; var g=c.getContext('2d',{willReadFrequently:true}); g.fillStyle='#000'; g.fillRect(0,0,S,S);
+    var im=new Image();
+    im.onload=function(){ var k=.86*S/Math.max(im.width,im.height), w=im.width*k, h=im.height*k; g.drawImage(im,(S-w)/2,(S-h)/2,w,h);
+      var d=g.getImageData(0,0,S,S).data, on=new Uint8Array(S*S); for(var i=0;i<S*S;i++) on[i]=d[i*4]>127?1:0;
+      for(var it=0;it<(dil==null?2:dil);it++){ var n=on.slice(); for(var y=1;y<S-1;y++) for(var x=1;x<S-1;x++){ var q=y*S+x; if(!on[q]&&(on[q-1]||on[q+1]||on[q-S]||on[q+S])) n[q]=1; } on=n; }
+      cb(on); };
+    im.onerror=function(){ cb(null); };
+    im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }
+  // One fold: a canvas, an icon, and how it scatters. o.icon marks a small tile (fills its box, tighter scatter, coarser facets).
+  function Fold(cv, svg, o){
+    var ctx=cv.getContext('2d'), STEP=o.icon?11:9, tris=[], ready=false, W=0, H=0, DPR=1, im=null;
+    if(o.icon){ im=new Image(); im.onload=function(){ draw(true); }; im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(gold(svg)); }   // tiles end crisp: the facets cross-fade into the icon itself
+    var pin=cv.getAttribute('data-progress'); pin=(pin===null||pin==='')?null:Math.max(0,Math.min(1,+pin));   // a still frame at a fixed progress (the share image)
+    var mode=cv.getAttribute('data-delay'), dir=+cv.getAttribute('data-dir')||1;   // share image: delay by position (left waits longest) and scatter leftwards, so one frame reads chaos → order
+    var p=pin!==null?pin:(reduce?1:0), drawn=-1, seed=o.seed||7, mx=-1e4, my=-1e4;
+    function pos(t,e,ox,oy,k,bx,by,stage){   // where a facet sits at progress e: tiles scatter around their box; the hero stage scatters over the whole window
+      var x,y; if(stage){ x=lerp(t.ux*W, ox+t.cx*k, e); y=lerp(t.uy*H, oy+t.cy*k, e); } else { x=ox+(t.cx+t.dx*bx*(1-e))*k; y=oy+(t.cy+t.dy*by*(1-e))*k; }
+      if(stage&&e<1){ var ddx=x-mx, ddy=y-my, dd=Math.sqrt(ddx*ddx+ddy*ddy), R=Math.min(W,H)*.24; if(dd<R&&dd>0){ var push=(R-dd)*.45*(1-e); x+=ddx/dd*push; y+=ddy/dd*push; } }
+      return [x,y]; }
+    var col=0; if(o.icon){ var li=cv.closest('li'); if(li) col=[].indexOf.call(li.parentNode.children, li)%3; }   // column in its row of three
+    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    function build(on){
+      if(!on) return;
+      var at=function(x,y){ x|=0; y|=0; return x>=0&&y>=0&&x<S&&y<S&&on[y*S+x]===1; };
+      var cols=Math.ceil(S/STEP)+1, rows=cols, V=[], i, j;
+      for(j=0;j<rows;j++){ V.push([]); for(i=0;i<cols;i++){ V[j].push([i*STEP+(rnd()-.5)*STEP*.9, j*STEP+(rnd()-.5)*STEP*.9]); } }
+      for(j=0;j<rows-1;j++) for(i=0;i<cols-1;i++){
+        var a=V[j][i], b=V[j][i+1], c=V[j+1][i], d=V[j+1][i+1];
+        var pair=((i+j)%2)?[[a,b,d],[a,d,c]]:[[a,b,c],[b,d,c]];
+        for(var m=0;m<2;m++){ var t=pair[m], cx=(t[0][0]+t[1][0]+t[2][0])/3, cy=(t[0][1]+t[1][1]+t[2][1])/3;
+          if(!at(cx,cy)) continue; var mids=0; for(var k=0;k<3;k++){ var u=t[k], v=t[(k+1)%3]; if(at((u[0]+v[0])/2,(u[1]+v[1])/2)) mids++; } if(mids<2) continue;
+          var ang=rnd()*Math.PI*2, dist=.3+rnd()*.9;
+          tris.push({p:t, cx:cx, cy:cy, sh:.84+rnd()*.26, dx:dir*(Math.cos(ang)*dist*S+S*.95), dy:Math.sin(ang)*dist*S*.45-S*.3, rot:(rnd()-.5)*2.4, d:mode==='x'?.08+.84*(1-cx/S):rnd()*.5, ux:rnd(), uy:rnd()}); }
+      }
+      ready=true; size(); draw(true);
+    }
+    function size(){ W=cv.clientWidth; H=cv.clientHeight; DPR=Math.min(devicePixelRatio||1,2); cv.width=W*DPR; cv.height=H*DPR; drawn=-1; }
+    function draw(force){
+      if(!ready||(!force&&p===drawn)) return; drawn=p;
+      ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+      var mob=W<900, box, ox, oy, bx, by, hz, every, i, t, s, e;
+      if(o.icon){ box=Math.min(W,H)/3; ox=(W-box)/2; oy=(H-box)/2; bx=-.42; by=.5; hz=box/220; every=4; }   // tiles: the icon fills the middle third of a 3x canvas, so the scatter and haze stay inside it
+      else { box=+cv.getAttribute('data-box')||(mob?Math.min(160,W*.42):Math.min(220,H*.25)); ox=W/2-box/2; oy=(cv.hasAttribute('data-oy')?+cv.getAttribute('data-oy'):(mob?.08:.11))*H; bx=mob?.45:1; by=mob?.6:1; hz=1; every=mob?6:3; }
+      var k=box/S, cf=o.icon?Math.pow(Math.max(0,Math.min(1,(p-.72)/.28)),2):0;   // tiles: the last stretch fades the facets into the drawn icon
+      var stage=!o.icon&&!mob&&pin===null;   // the full-window stage: desktop hero only (phones keep the cloud; the share image keeps its frame)
+      for(i=0;i<tris.length;i+=every){ t=tris[i]; s=Math.max(0,Math.min(1,(p-t.d)/(1-t.d))); e=ease(s); if(s>=1) continue;   // the wisp: thinner on phones and tiles
+        var xy=pos(t,e,ox,oy,k,bx,by,stage), x=xy[0], y=xy[1], r=stage?(24+Math.min(W,H)*.07*(1-e)):(18+34*(1-e))*(mob&&!o.icon?.55:1)*hz;
+        var g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,'rgba(122,162,247,'+((mob&&!o.icon?.14:(stage?.17:.22))*(1-e)).toFixed(3)+')'); g.addColorStop(1,'rgba(122,162,247,0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+      for(i=0;i<tris.length;i++){ t=tris[i]; s=Math.max(0,Math.min(1,(p-t.d)/(1-t.d))); e=ease(s);
+        var pq=pos(t,e,ox,oy,k,bx,by,stage), cx=pq[0], cy=pq[1], rot=t.rot*(1-e), sc=.55+.45*e;
+        var R=lerp(122,255,e)*t.sh, G=lerp(162,217,e)*t.sh, B=lerp(247,0,e)*t.sh;
+        ctx.globalAlpha=(.25+.75*e)*(1-cf); ctx.fillStyle='rgb('+(R|0)+','+(G|0)+','+(B|0)+')';
+        ctx.beginPath(); for(var q=0;q<3;q++){ var vx=(t.p[q][0]-t.cx)*k*sc, vy=(t.p[q][1]-t.cy)*k*sc; var rx=vx*Math.cos(rot)-vy*Math.sin(rot), ry=vx*Math.sin(rot)+vy*Math.cos(rot); if(q===0) ctx.moveTo(cx+rx,cy+ry); else ctx.lineTo(cx+rx,cy+ry); } ctx.closePath(); ctx.fill();
+        if(e>.9){ ctx.lineJoin='round'; ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=.8; ctx.stroke(); }                      // seal the seams between facets
+        if(e>.97){ ctx.strokeStyle='rgba(120,90,0,'+(.16*(e-.97)/.03).toFixed(3)+')'; ctx.lineWidth=.4; ctx.stroke(); } }   // faint fold edges
+      if(cf>0&&im&&im.complete&&im.naturalWidth){ ctx.globalAlpha=cf; ctx.drawImage(im, ox, oy, box, box); }
+      ctx.globalAlpha=1;
+      if(!o.icon){ window.__fold=p; window.__facets=tris.length; }
+    }
+    this.progress=function(){ if(pin!==null){ p=pin; return; } if(reduce){ p=1; return; }
+      if(o.icon){ var r=cv.getBoundingClientRect(), vh=innerHeight, off=innerWidth>=900?col*.12:0; p=Math.max(0,Math.min(1,(vh*.92-r.top)/(vh*.42)-off)); }   // gathers as the tile rises through the lower half of the screen; later columns wait their turn
+      else { var span=Math.max(1, o.hero.offsetHeight-innerHeight); p=Math.max(0,Math.min(1, scrollY/span)); } };
+    this.pointer=function(x,y){ mx=x; my=y; if(!o.icon&&!reduce&&pin===null&&p<1) draw(true); };
+    this.draw=function(){ draw(false); }; this.size=function(){ size(); }; this.at=function(){ return p; }; this.ready=function(){ return ready; };
+    raster(svg, build, o.icon?1:2);
+  }
+  var folds=[], cv=document.getElementById('fold'), hero=document.getElementById('hero');
+  if(cv&&hero) folds.push(new Fold(cv, ICONS[0], {hero:hero, seed:7}));
+  var tiles=document.querySelectorAll('canvas.fold-icon');
+  for(var i=0;i<tiles.length;i++){ var n=+tiles[i].getAttribute('data-icon'); if(ICONS[n]) folds.push(new Fold(tiles[i], ICONS[n], {icon:true, seed:11+n*13+i})); }
+  function step(){ for(var i=0;i<folds.length;i++){ folds[i].progress(); folds[i].draw(); } window.__icons=tiles.length; window.__iconsFormed=folds.filter(function(f,i){ return i>0&&f.ready()&&f.at()>=1; }).length; }
+  var queued=false; function onScroll(){ if(queued) return; queued=true; requestAnimationFrame(function(){ queued=false; step(); }); }
+  var px=-1e4, py=-1e4, qp=false, heroFold=(cv&&hero)?folds[0]:null;
+  function onPointer(e){ px=e.clientX; py=e.clientY; if(qp) return; qp=true; requestAnimationFrame(function(){ qp=false; if(heroFold) heroFold.pointer(px,py); trace(); }); }
+  // the trace: a few soft blue blobs behind the page once the mark has formed, moved only by scroll and the pointer
+  // The field (2026-11-03, his "why can't the background of the pages all be like the first one"): below the hero, the
+  // same blue haze and star-facets as the hero stage fill a fixed canvas behind the page on every page, lighter so the
+  // text stays readable. Nothing moves on its own: the field drifts with the scroll (slow parallax) and the pointer
+  // pushes it aside, like the hero. Phones and reduced motion: no field. White bands (.chapter) sit on top of it.
+  var tc=null, tg=null, blobs=[], stars=[], tseed=29; function trnd(){ tseed=(tseed*1103515245+12345)&0x7fffffff; return tseed/0x7fffffff; }
+  if(!reduce&&innerWidth>=900&&!matchMedia('(hover: none)').matches){ tc=document.createElement('canvas'); tc.id='trace'; tc.setAttribute('aria-hidden','true'); document.body.insertBefore(tc, document.body.firstChild); tg=tc.getContext('2d');
+    for(var b=0;b<22;b++) blobs.push({ux:trnd(), uy:trnd(), v:.10+trnd()*.22, r:.05+trnd()*.09, ph:trnd()*6.28, a:.06+trnd()*.07});
+    for(var q=0;q<260;q++) stars.push({ux:trnd(), uy:trnd(), v:.14+trnd()*.30, s:2+trnd()*5, rot:trnd()*6.28, a:.18+trnd()*.30, ph:trnd()*6.28}); }
+  function trace(){ if(!tg) return; var W=innerWidth, H=innerHeight, D=Math.min(devicePixelRatio||1,2); if(tc.width!==W*D||tc.height!==H*D){ tc.width=W*D; tc.height=H*D; }
+    tg.setTransform(D,0,0,D,0,0); tg.clearRect(0,0,W,H); var f=1; if(hero){ var span=Math.max(1, hero.offsetHeight-innerHeight); f=Math.max(0,Math.min(1,(scrollY-span)/(H*.6))); } if(f<=0) return;
+    var PR=Math.min(W,H)*.24, L=H+400, i, o, x, y, ddx, ddy, dd, push;
+    for(i=0;i<blobs.length;i++){ o=blobs[i]; y=((o.uy*L - scrollY*o.v)%L+L)%L-200; x=o.ux*W+Math.sin(scrollY*.0012+o.ph)*48; var R=Math.min(W,H)*o.r;
+      ddx=x-px; ddy=y-py; dd=Math.sqrt(ddx*ddx+ddy*ddy); if(dd<PR&&dd>0){ push=(PR-dd)*.5; x+=ddx/dd*push; y+=ddy/dd*push; }
+      var g=tg.createRadialGradient(x,y,0,x,y,R); g.addColorStop(0,'rgba(122,162,247,'+(o.a*f).toFixed(3)+')'); g.addColorStop(1,'rgba(122,162,247,0)'); tg.fillStyle=g; tg.beginPath(); tg.arc(x,y,R,0,Math.PI*2); tg.fill(); }
+    for(i=0;i<stars.length;i++){ o=stars[i]; y=((o.uy*L - scrollY*o.v)%L+L)%L-200; x=o.ux*W+Math.sin(scrollY*.0009+o.ph)*22;
+      ddx=x-px; ddy=y-py; dd=Math.sqrt(ddx*ddx+ddy*ddy); if(dd<PR&&dd>0){ push=(PR-dd)*.55; x+=ddx/dd*push; y+=ddy/dd*push; }
+      var r=o.rot+scrollY*.002, c=Math.cos(r), sn=Math.sin(r), sz=o.s;
+      tg.globalAlpha=o.a*f; tg.fillStyle='rgb(122,162,247)'; tg.beginPath();
+      tg.moveTo(x+c*sz, y+sn*sz); tg.lineTo(x+c*(-sz*.6)-sn*sz*.8, y+sn*(-sz*.6)+c*sz*.8); tg.lineTo(x+c*(-sz*.6)+sn*sz*.8, y+sn*(-sz*.6)-c*sz*.8); tg.closePath(); tg.fill(); }
+    tg.globalAlpha=1; }
+  if(!reduce) addEventListener('scroll', function(){ onScroll(); if(tg){ requestAnimationFrame(trace); } }, {passive:true});
+  if(!reduce) addEventListener('pointermove', onPointer, {passive:true});
+  addEventListener('resize', function(){ for(var i=0;i<folds.length;i++) folds[i].size(); step(); });
+  for(var j=0;j<folds.length;j++) folds[j].progress();
+  addEventListener('load', function(){ step(); trace(); });
+})();
+
+</script>
+</body>
+</html>
