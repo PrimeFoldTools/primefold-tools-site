@@ -203,8 +203,8 @@ Matched phrases:
     <div class="ruler" id="ruler">
       <div class="lab">Done-claims our hook stopped, week by week</div>
       <div class="scrub" id="scrub" role="slider" aria-label="Done-claims our hook stopped, week by week" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" tabindex="0"><span class="pin" id="pin"></span></div>
-      <div class="out"><b id="cum">331</b><span id="cap">stopped for a missing receipt since 2026-05-19, the last week still open</span></div>
-      <p class="def">A stop means the agent said "done" or "fixed" and no proof was on record. 528 claims checked; 331 stopped; 53 proven afterwards.</p>
+      <div class="out"><b id="cum">335</b><span id="cap">stopped for a missing receipt since 2026-05-19, the last week still open</span></div>
+      <p class="def">A stop means the agent said "done" or "fixed" and no proof was on record. 545 claims checked; 335 stopped; 55 proven afterwards.</p>
     </div>
   </section>
 
@@ -254,7 +254,7 @@ Matched phrases:
       <h2>Send us your incident.</h2>
       <p>One incident: what your agent claimed, what was true. First three free. You get back the check that would have caught it.</p>
       <p class="ask"><a href="mailto:primefoldtools@gmail.com?subject=My%20agent%20said%20done">Email primefoldtools@gmail.com</a></p>
-      <p class="rev">A script supplies every figure on this page, as read on Nov 3, 2026.</p>
+      <p class="rev">A script supplies every figure on this page, as read on Nov 5, 2026.</p>
     </section>
   </main>
 
@@ -297,7 +297,7 @@ Matched phrases:
 // The claims ruler (from look B: zero's scrubbable ruler, daoism's level bar). One bar per week from data/receipts.json.
 // It changes text only when a pointer or a key moves along it. No timers, so no number ever counts up on its own.
 (function(){
-  var WEEKLY=[["2026-05-18", 10], ["2026-05-25", 8], ["2026-06-01", 11], ["2026-06-08", 25], ["2026-06-15", 24], ["2026-06-22", 14], ["2026-06-29", 4], ["2026-07-06", 2], ["2026-07-13", 19], ["2026-07-20", 16], ["2026-07-27", 9], ["2026-08-03", 5], ["2026-08-10", 10], ["2026-08-17", 13], ["2026-08-24", 7], ["2026-08-31", 15], ["2026-09-07", 30], ["2026-09-14", 10], ["2026-09-21", 16], ["2026-09-28", 24], ["2026-10-05", 17], ["2026-10-12", 12], ["2026-10-19", 12], ["2026-10-26", 18]];
+  var WEEKLY=[["2026-05-18", 10], ["2026-05-25", 8], ["2026-06-01", 11], ["2026-06-08", 25], ["2026-06-15", 24], ["2026-06-22", 14], ["2026-06-29", 4], ["2026-07-06", 2], ["2026-07-13", 19], ["2026-07-20", 16], ["2026-07-27", 9], ["2026-08-03", 5], ["2026-08-10", 10], ["2026-08-17", 13], ["2026-08-24", 7], ["2026-08-31", 15], ["2026-09-07", 30], ["2026-09-14", 10], ["2026-09-21", 16], ["2026-09-28", 24], ["2026-10-05", 17], ["2026-10-12", 12], ["2026-10-19", 12], ["2026-10-26", 18], ["2026-11-02", 4]];
   var sc=document.getElementById('scrub'), pin=document.getElementById('pin'), cap=document.getElementById('cap'), cum=document.getElementById('cum');
   if(!sc||!WEEKLY.length) return;
   var max=Math.max.apply(null, WEEKLY.map(function(w){return w[1];}));

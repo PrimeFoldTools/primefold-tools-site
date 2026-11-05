@@ -1,6 +1,6 @@
 # PrimeFold Tools
 
-> We stop AI from lying about its own work. Tools that make AI agents prove their work. A company in Ontario, Canada; Collin Nerdahl is the CEO. Figures below were read on Nov 3, 2026 by a script.
+> We stop AI from lying about its own work. Tools that make AI agents prove their work. A company in Ontario, Canada; Collin Nerdahl is the CEO. Figures below were read on Nov 5, 2026 by a script.
 
 ## Products
 - Andon (free, MIT, v0.1.1): a claim-check Stop hook for coding agents. When the final message says done, fixed or verified without a matching check on record, it asks for the receipt. Warn mode by default. Plugin for Claude Code and Codex. https://github.com/PrimeFoldTools/Andon
@@ -10,10 +10,10 @@
 codex plugin add andon@primefold-tools
   - 539 tests pass on a clean clone at commit 15ef5bb. 168 GitHub stars. Adapted by the maintainer of Serial-Studio.
 - AI Agent Operator Kit (free, MIT): 11 skills for Claude Code; 5 of them chain (capture open loops, Pareto filter, drift audit, reality check, outside copy). https://github.com/PrimeFoldTools/primefold-skills-public
-- Verification Kit (USD 27, one-time, Polar checkout: https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI): 3 stricter Stop hooks for Claude Code. Strict claim-check (blocks a system-level done with no proof row in the last 15 minutes), claim provenance (a number in the final answer that appears nowhere in the session's evidence), fabrication detector (a narrated tool run that never happened). Version 0.1.0, 210 tests, licence single user v0.1. https://primefold.tools/built.html#verification-kit
+- Verification Kit (USD 27, one-time, Polar checkout: https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI): 3 stricter Stop hooks for Claude Code. Strict claim-check (blocks a system-level done with no proof row in the last 15 minutes), claim provenance (a number in the final answer that appears nowhere in the session's evidence), fabrication detector (a narrated tool run that never happened). Version 0.1.1, 210 tests, licence single user v0.1.1. https://primefold.tools/built.html#verification-kit
 
 ## Proof
-- Our own claim-check hook has stopped 331 done-claims for a missing receipt since 2026-05-19 (528 distinct claims checked; 53 were proven afterwards). Source: the hook's own log, read on Nov 3, 2026.
+- Our own claim-check hook has stopped 335 done-claims for a missing receipt since 2026-05-19 (545 distinct claims checked; 55 were proven afterwards). Source: the hook's own log, read on Nov 5, 2026.
 - The hook's live output and a 30-second reproduction: https://github.com/PrimeFoldTools/Andon#reproduce-it-in-30-seconds
 - Known limits, read before you trust it: https://github.com/PrimeFoldTools/Andon#known-limits--read-before-you-trust-it
 
