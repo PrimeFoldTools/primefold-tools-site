@@ -19,7 +19,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"SoftwareApplication","@id":"https://github.com/PrimeFoldTools/Andon#app","name":"Andon","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code, Codex","softwareVersion":"0.1.1","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/Andon","author":{"@type":"Organization","@id":"https://primefold.tools/#org","name":"PrimeFold Tools","url":"https://primefold.tools/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
 {"@type":"SoftwareApplication","name":"AI Agent Operator Kit","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/primefold-skills-public","author":{"@id":"https://primefold.tools/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
-{"@type":"Product","name":"Verification Kit","description":"3 Stop hooks for Claude Code: a strict claim-check, a claim-provenance check for unsourced numbers, and a fabrication detector for narrated tool runs. Version 0.1.1.","brand":{"@id":"https://primefold.tools/#org"},"url":"https://primefold.tools/built.html#verification-kit","offers":{"@type":"Offer","price":"27","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI"}}
+{"@type":"Product","name":"Verification Kit","description":"3 Stop hooks for Claude Code: a strict claim-check, a claim-provenance check for unsourced numbers, and a fabrication detector for narrated tool runs. Version 0.1.2.","brand":{"@id":"https://primefold.tools/#org"},"url":"https://primefold.tools/built.html#verification-kit","offers":{"@type":"Offer","price":"27","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI"}}
 ]}</script>
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -81,22 +81,22 @@ codex plugin add andon@primefold-tools</code></div>
 
     <section class="item" id="verification-kit">
       <h2>Verification Kit <span class="price">$27 · 30-day refund, no questions</span></h2>
-      <p>3 Stop hooks that catch what free Andon lets through.</p>
+      <p>3 Stop hooks: two checks Andon doesn't have, plus a claim-check that wants proof text, not just shared words.</p>
       <ul class="points">
-<li><strong>Flags</strong> a command the agent said it ran but never ran.</li>
+<li><strong>Flags</strong> a message that describes more tool actions than it made.</li>
 <li><strong>Flags</strong> a number in the final answer with no source in the session.</li>
-<li><strong>Blocks</strong> a &quot;the whole job is done&quot; claim with no proof in the last 15 minutes.</li>
-<li><strong>Free Andon warns on that claim.</strong> The kit&#x27;s check blocks it.</li>
+<li><strong>Asks</strong> for recent proof text behind a &quot;done&quot;: an exit code, commit id, test count or HTTP status.</li>
+<li><strong>Andon&#x27;s own claim-check</strong> has warn and block modes, and an optional mode that checks for a recorded passing run.</li>
 <li><strong>Ships in warn mode.</strong> You turn on block.</li>
       </ul>
       <div class="card">
-        <div class="head"><span>verification-kit v0.1.1</span><span>commit 4b093b5</span></div>
-        <div class="line kv"><span class="who">tests</span><span class="txt">210 passed</span></div>
+        <div class="head"><span>verification-kit v0.1.2</span><span>commit b463147</span></div>
+        <div class="line kv"><span class="who">tests</span><span class="txt">215 passed</span></div>
         <div class="line kv"><span class="who">mutate</span><span class="txt">10 of 10 planted bugs caught, so the tests can fail</span></div>
         <div class="line kv"><span class="who">demo</span><span class="txt">6 small transcripts: 3 defects flagged, 3 clean turns left alone</span></div>
-        <div class="line kv"><span class="who">licence</span><span class="txt">single user, v0.1.1, in force from 2026-11-05</span></div>
-        <div class="line kv"><span class="who">zip</span><span class="txt">verification-kit-v0.1.1.zip, 73,649 bytes</span></div>
-        <div class="line kv hash"><span class="who">sha256</span><span class="txt">7162d9ec8b6dc18d<wbr>aedf706d307a8d06<wbr>9c39098d28e930c2<wbr>161afba71c015851</span></div>
+        <div class="line kv"><span class="who">licence</span><span class="txt">single user, v0.1.2, in force from 2026-11-05</span></div>
+        <div class="line kv"><span class="who">zip</span><span class="txt">verification-kit-v0.1.2.zip, 76,098 bytes</span></div>
+        <div class="line kv hash"><span class="who">sha256</span><span class="txt">0ec47c56f4e7037d<wbr>dffec980fbec9abf<wbr>19f5f7da65901a00<wbr>956c16fd792f2954</span></div>
       </div>
       <p class="cap">30-second proof, no install. The kit ships six small transcripts and a script that runs the three hooks on them. Checkout is on Polar. The download is the zip with that hash.</p>
       <div class="cta"><a class="button" href="https://buy.polar.sh/polar_cl_NHk8JpOu7qgTogT8PA6TFrgVudI4ONvmopi2T0U5WjI">Buy the Verification Kit, $27</a></div>
