@@ -19,7 +19,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://primefold.tools/#org","name":"PrimeFold Tools","url":"https://primefold.tools/","logo":"https://primefold.tools/assets/pf-mark-gold.png","email":"mailto:primefoldtools@gmail.com","description":"We stop AI from lying about its own work. Tools that make AI agents prove their work.","address":{"@type":"PostalAddress","addressRegion":"ON","addressCountry":"CA"},"founder":{"@type":"Person","name":"Collin Nerdahl","jobTitle":"CEO","url":"https://collinnerdahl.com/"},"sameAs":["https://github.com/PrimeFoldTools","https://x.com/PrimeFoldTools"]},
 {"@type":"WebSite","@id":"https://primefold.tools/#site","url":"https://primefold.tools/","name":"PrimeFold Tools","publisher":{"@id":"https://primefold.tools/#org"}},
-{"@type":"SoftwareApplication","@id":"https://github.com/PrimeFoldTools/Andon#app","name":"Andon","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code, Codex","softwareVersion":"0.1.1","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/Andon","author":{"@id":"https://primefold.tools/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A claim-check Stop hook for coding agents: when the final message says done without a matching check on record, it asks for the receipt."}
+{"@type":"SoftwareApplication","@id":"https://github.com/PrimeFoldTools/Andon#app","name":"Andon","applicationCategory":"DeveloperApplication","operatingSystem":"Claude Code, Codex","softwareVersion":"0.1.2","license":"https://opensource.org/licenses/MIT","url":"https://github.com/PrimeFoldTools/Andon","author":{"@id":"https://primefold.tools/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A claim-check Stop hook for coding agents: when the final message says done without a matching check on record, it asks for the receipt."}
 ]}</script>
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -189,7 +189,7 @@
     <h2>Proof you can run yourself.</h2>
     <div class="demo">
       <div class="card">
-        <div class="head"><span>hooks/claim_check_hook.py, warn mode</span><span>clean clone 15ef5bb</span></div>
+        <div class="head"><span>hooks/claim_check_hook.py, warn mode</span><span>clean clone 8f8c397</span></div>
         <div class="line agent"><span class="who">agent</span><span class="txt">the migration is complete and the tests are fixed</span></div>
         <div class="line"><span class="who">andon</span><pre class="txt">⚠️  Claim-check enforcer — done-claim detected without a fresh verification log entry satisfying the applicable correspondence or fallback rule.
 Matched phrases:
@@ -198,13 +198,13 @@ Matched phrases:
       </div>
       <p class="cap">The hook's real response, from a clean clone. <a href="https://github.com/PrimeFoldTools/Andon#reproduce-it-in-30-seconds">Run it yourself in 30 seconds.</a></p>
     </div>
-    <p>539 tests pass on a clean clone.</p>
+    <p>747 tests pass on a clean clone.</p>
 
     <div class="ruler" id="ruler">
       <div class="lab">Done-claims our hook stopped, week by week</div>
       <div class="scrub" id="scrub" role="slider" aria-label="Done-claims our hook stopped, week by week" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" tabindex="0"><span class="pin" id="pin"></span></div>
-      <div class="out"><b id="cum">335</b><span id="cap">stopped for a missing receipt since 2026-05-19, the last week still open</span></div>
-      <p class="def">A stop means the agent said "done" or "fixed" and no proof was on record. 549 claims checked; 335 stopped; 56 proven afterwards.</p>
+      <div class="out"><b id="cum">361</b><span id="cap">stopped for a missing receipt since 2026-05-19, the last week still open</span></div>
+      <p class="def">A stop means the agent said "done" or "fixed" and no proof was on record. 708 claims checked; 361 stopped; 69 proven afterwards.</p>
     </div>
   </section>
 
@@ -254,7 +254,7 @@ Matched phrases:
       <h2>Send us your incident.</h2>
       <p>One incident: what your agent claimed, what was true. First three free. You get back the check that would have caught it.</p>
       <p class="ask"><a href="mailto:primefoldtools@gmail.com?subject=My%20agent%20said%20done">Email primefoldtools@gmail.com</a></p>
-      <p class="rev">A script supplies every figure on this page, as read on Nov 5, 2026.</p>
+      <p class="rev">A script supplies every figure on this page, as read on Nov 18, 2026.</p>
     </section>
   </main>
 
@@ -297,7 +297,7 @@ Matched phrases:
 // The claims ruler (from look B: zero's scrubbable ruler, daoism's level bar). One bar per week from data/receipts.json.
 // It changes text only when a pointer or a key moves along it. No timers, so no number ever counts up on its own.
 (function(){
-  var WEEKLY=[["2026-05-18", 10], ["2026-05-25", 8], ["2026-06-01", 11], ["2026-06-08", 25], ["2026-06-15", 24], ["2026-06-22", 14], ["2026-06-29", 4], ["2026-07-06", 2], ["2026-07-13", 19], ["2026-07-20", 16], ["2026-07-27", 9], ["2026-08-03", 5], ["2026-08-10", 10], ["2026-08-17", 13], ["2026-08-24", 7], ["2026-08-31", 15], ["2026-09-07", 30], ["2026-09-14", 10], ["2026-09-21", 16], ["2026-09-28", 24], ["2026-10-05", 17], ["2026-10-12", 12], ["2026-10-19", 12], ["2026-10-26", 18], ["2026-11-02", 4]];
+  var WEEKLY=[["2026-05-18", 10], ["2026-05-25", 8], ["2026-06-01", 11], ["2026-06-08", 25], ["2026-06-15", 24], ["2026-06-22", 14], ["2026-06-29", 4], ["2026-07-06", 2], ["2026-07-13", 19], ["2026-07-20", 16], ["2026-07-27", 9], ["2026-08-03", 5], ["2026-08-10", 10], ["2026-08-17", 13], ["2026-08-24", 7], ["2026-08-31", 15], ["2026-09-07", 30], ["2026-09-14", 10], ["2026-09-21", 16], ["2026-09-28", 24], ["2026-10-05", 17], ["2026-10-12", 12], ["2026-10-19", 12], ["2026-10-26", 18], ["2026-11-02", 13], ["2026-11-09", 15], ["2026-11-16", 2]];
   var sc=document.getElementById('scrub'), pin=document.getElementById('pin'), cap=document.getElementById('cap'), cum=document.getElementById('cum');
   if(!sc||!WEEKLY.length) return;
   var max=Math.max.apply(null, WEEKLY.map(function(w){return w[1];}));
